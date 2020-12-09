@@ -10,19 +10,26 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import controller.FoodController;
+import controller.OrderController;
 import core.view.MainView;
 
 public class MainFormView extends MainView{
 
 	JMenuBar mainMenuBar;
-	JMenu userMenu,transactionMenu,shopMenu;
+	JMenu userMenu,transactionMenu,shopMenu, chefMenu;
 	JSeparator menuSeparator;
-    JMenuItem loginMI,logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI;
+    JMenuItem loginMI,logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI;
 	JDesktopPane desktop = new JDesktopPane();
 //	LoginInternalFrame loginFrame;
 //	OrderInternalFrame orderFrame;
 	public static boolean loginState = false;
 //	public static boolean logoutState = true;
+	
+	ChefAddFoodView chefAddFoodFrame;
+	ChefFoodListView chefFoodListFrame;
+	ChefOrderListView orderListChefFrame;
+	
 	
 	public MainFormView() {
 		super();
@@ -44,6 +51,11 @@ public class MainFormView extends MainView{
 		shopMenu = new JMenu("Shop");
 		foodMI = new JMenuItem("Food Menu");
 		cartMI = new JMenuItem("Cart");
+		
+		chefMenu = new JMenu("Chef Menu");
+		chefAddFoodMI = new JMenuItem("Add Food");
+		chefFoodListMI = new JMenuItem("Food List");
+		chefOrderListMI = new JMenuItem("Order List");
 	}
 
 	@Override
@@ -62,6 +74,12 @@ public class MainFormView extends MainView{
 		shopMenu.add(foodMI);
 		shopMenu.add(cartMI);
 		
+		mainMenuBar.add(chefMenu);
+		chefMenu.add(chefAddFoodMI);
+		chefMenu.add(chefFoodListMI);
+		chefMenu.add(chefOrderListMI);
+		
+	
 		add(mainMenuBar,BorderLayout.NORTH);
 	}
 
@@ -87,6 +105,42 @@ public class MainFormView extends MainView{
 //				add(desktop,BorderLayout.CENTER);
 //				foodMenuInternalFrame = new FoodMenuView();
 //				desktop.add(foodMenuInternalFrame);
+			}
+		});
+		
+		chefAddFoodMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop,BorderLayout.CENTER);
+				chefAddFoodFrame = new ChefAddFoodView();
+				FoodController.getInstance().viewManageFoodForm(chefAddFoodFrame);
+				desktop.removeAll();
+				desktop.add(chefAddFoodFrame);
+			}
+		});
+		
+		chefFoodListMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop,BorderLayout.CENTER);
+				chefFoodListFrame = new ChefFoodListView();
+				FoodController.getInstance().viewManageFoodForm(chefFoodListFrame);
+				desktop.removeAll();
+				desktop.add(chefFoodListFrame);
+			}
+		});
+		
+		chefOrderListMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop,BorderLayout.CENTER);
+				orderListChefFrame = new ChefOrderListView();
+				OrderController.getInstance().viewOrderQueue(orderListChefFrame);
+				desktop.removeAll();
+				desktop.add(orderListChefFrame);
 			}
 		});
 	}
