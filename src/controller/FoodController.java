@@ -25,8 +25,8 @@ public class FoodController {
 		foodModel = new FoodModel();
 	}
 	
-	public Vector<FoodModel> viewAll(){
-		return foodModel.viewAll();
+	public Vector<FoodModel> viewAllForUser(){
+		return foodModel.viewAllForUser();
 	}
 	
 	public FoodMenuView showUserFoodMenu() {

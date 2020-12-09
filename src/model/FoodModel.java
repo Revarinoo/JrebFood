@@ -8,7 +8,7 @@ import connect.Connect;
 
 public class FoodModel {
 	
-	protected String tableName = "foods";
+	protected String tableName;
 	protected Connect con = Connect.getConnection();
 	
 	private Integer foodId;
@@ -49,10 +49,12 @@ public class FoodModel {
 	}
 	
 	public FoodModel() {
+		this.tableName = "foods";
 	}
 	
 	public FoodModel(Integer foodId, String name, Integer price, String description,String status) {
 		super();
+		this.tableName = "foods";
 		this.foodId = foodId;
 		this.name = name;
 		this.price = price;
@@ -91,5 +93,25 @@ public class FoodModel {
 		}
 		return null;
 	}
+	
+	public Vector<FoodModel> viewAllForUser() {
+		String query = "SELECT * FROM "+ this.tableName + " WHERE foodStatus='available'";
+		ResultSet rs=con.executeQuery(query);
+		
+		Vector<FoodModel> foods = new Vector<>();
+		try {
+			while(rs.next()) {
+				FoodModel food = mapModel(rs);
+				foods.add(food);
+			}
+			return foods;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 
 }

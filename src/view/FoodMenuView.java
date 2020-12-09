@@ -122,7 +122,7 @@ public class FoodMenuView extends View{
 		header.add("Status");
 		foodDtm = new DefaultTableModel(header,0);
 		
-		Vector<FoodModel> foods = FoodController.getInstance().viewAll();
+		Vector<FoodModel> foods = FoodController.getInstance().viewAllForUser();
 		
 		for (FoodModel food : foods) {
 			Vector<Object> row = new Vector<>();
