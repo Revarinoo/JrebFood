@@ -1,5 +1,9 @@
 package model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import connect.Connect;
 
 public class UserModel {
@@ -50,6 +54,57 @@ public class UserModel {
 		this.phoneNumber = phoneNumber;
 	}
 	
+	public boolean createAccount() {
+		tableName = "users";
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setString(1, name);
+			ps.setString(2, address);
+			ps.setString(3, email);
+			ps.setString(4, password);
+			ps.setString(5, phoneNumber);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public UserModel getOne(Integer userId) {
+		String query = String.format("SELECT * from %s where userId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = null;
+		try {
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			while(rs.next()) {
+				Integer userIdTemp = rs.getInt("userId");
+				String name = rs.getString("userName");
+				String address = rs.getString("userAddress");
+				String phoneNumber = rs.getString("userPhone");
+				
+				UserModel user = new UserModel();
+				user.setUserId(userIdTemp);
+				user.setName(name);
+				user.setAddress(address);
+				user.setPhoneNumber(phoneNumber);
+				return user;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	
 }

@@ -2,12 +2,17 @@ package controller;
 
 import java.util.Vector;
 
+
 import core.view.View;
 import model.FoodModel;
+import model.FoodModel;
+import view.FoodMenuView;
+
 
 public class FoodController {
 	
-	private static FoodController instance;
+	private static FoodController instance=null;
+	private FoodModel foodModel;
 	
 	public static FoodController getInstance() {
 		if(instance == null) {
@@ -21,9 +26,10 @@ public class FoodController {
 	}
 	
 	private FoodController() {
-		// TODO Auto-generated constructor stub
+		foodModel = new FoodModel();
 	}
 	
+
 	public void addFood(String name, String desc, Integer price) {
 		FoodModel food = new FoodModel();
 		food.setName(name);
@@ -72,4 +78,13 @@ public class FoodController {
 		return food.getAll();
 	}
 	
+
+	public Vector<FoodModel> viewAllForUser(){
+		return foodModel.viewAllForUser();
+	}
+	
+	public FoodMenuView showUserFoodMenu() {
+		return new FoodMenuView();
+	}
+
 }

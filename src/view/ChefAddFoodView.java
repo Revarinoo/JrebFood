@@ -129,7 +129,7 @@ public class ChefAddFoodView extends View{
 				 name = nameTxt.getText();
 				 description = descTxt.getText();
 				 price = Integer.parseInt(priceTxt.getText());
-				 status = "Available";
+				 status = "available";
 				 FoodController.getInstance().addFood(name, description, price);
 				
 				JOptionPane.showMessageDialog(ChefAddFoodView.this,

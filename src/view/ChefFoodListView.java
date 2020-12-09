@@ -182,7 +182,7 @@ public class ChefFoodListView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				status = "Available";
+				status = "available";
 				
 			}
 		});
@@ -191,7 +191,7 @@ public class ChefFoodListView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				status = "Unavailable";
+				status = "unavailable";
 				
 			}
 		});
