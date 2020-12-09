@@ -1,5 +1,7 @@
 package controller;
 
+import model.UserModel;
+
 public class UserController {
 
 	private static UserController instance;
@@ -22,4 +24,9 @@ public class UserController {
 //	public View view() {
 //		return new UserController();
 //	}
+	
+	public UserModel getOne(Integer userId) {
+		UserModel user = new UserModel();
+		return user.getOne(userId);
+	}
 }

@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.Vector;
+
+import model.OrderDetailModel;
+
 public class OrderDetailController {
 
 	private static OrderDetailController instance;
@@ -22,4 +26,8 @@ public class OrderDetailController {
 //	public View view() {
 //		return new OrderDetailController();
 //	}
+	public Vector<OrderDetailModel> viewDetailById(Integer orderId){
+		OrderDetailModel detail = new OrderDetailModel();
+		return detail.viewDetailById(orderId);
+	}
 }
