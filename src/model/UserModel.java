@@ -54,6 +54,25 @@ public class UserModel {
 		this.phoneNumber = phoneNumber;
 	}
 	
+	public boolean createAccount() {
+		tableName = "users";
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setString(1, name);
+			ps.setString(2, address);
+			ps.setString(3, email);
+			ps.setString(4, password);
+			ps.setString(5, phoneNumber);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public UserModel getOne(Integer userId) {
 		String query = String.format("SELECT * from %s where userId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);

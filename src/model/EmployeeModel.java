@@ -1,6 +1,10 @@
 package model;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
 
 import connect.Connect;
 
@@ -59,5 +63,42 @@ public class EmployeeModel {
 		this.status = status;
 	}
 	
+	public Vector<EmployeeModel> viewAll(Integer roleId){
+		tableName = "employees";
+		Vector<EmployeeModel> data = new Vector<>();
+		String query = String.format("SELECT employeeId,employeeName,employeeDOB,employeeEmail,employeeStatus FROM %s WHERE roleId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet result = null;
+		try {
+			ps.setInt(1, roleId);
+			result = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(result.next()) {
+				Integer employeeId = result.getInt("employeeId");
+				String employeeName = result.getString("employeeName");
+				Date employeeDOB = result.getDate("employeeDOB");
+				String employeeEmail = result.getString("employeeEmail");
+				String employeeStatus = result.getString("employeeStatus");
+				
+				EmployeeModel employee = new EmployeeModel();
+				employee.setId(employeeId);
+				employee.setName(employeeName);
+				employee.setDOB(employeeDOB);
+				employee.setEmail(employeeEmail);
+				employee.setStatus(employeeStatus);
+				data.add(employee);
+			}
+			return data;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
 	
 }

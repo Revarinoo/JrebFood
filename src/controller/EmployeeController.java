@@ -1,5 +1,11 @@
 package controller;
 
+import java.util.Vector;
+
+import core.view.View;
+import model.EmployeeModel;
+import model.UserModel;
+
 public class EmployeeController {
 
 	private static EmployeeController instance;
@@ -19,7 +25,12 @@ public class EmployeeController {
 		// TODO Auto-generated constructor stub
 	}
 	
-//	public View view() {
-//		return new EmployeeController();
-//	}
+	public View view(View target) {
+		return target;
+	}
+	
+	public Vector<EmployeeModel> viewAll(Integer roleId){
+		EmployeeModel employee = new EmployeeModel();
+		return employee.viewAll(roleId);
+	}
 }
