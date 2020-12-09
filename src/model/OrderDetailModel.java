@@ -1,5 +1,10 @@
 package model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+
 import connect.Connect;
 
 public class OrderDetailModel {
@@ -31,6 +36,40 @@ public class OrderDetailModel {
 		this.qty = qty;
 	}
 	
+	public Vector<OrderDetailModel> viewDetailById(Integer orderId){
+		Vector<OrderDetailModel> listDetail = new Vector<OrderDetailModel>();
+		String query = String.format("SELECT * From order_details WHERE orderId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = null;
+		
+		try {
+			ps.setInt(1, orderId);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			while(rs.next()) {
+				Integer orderIdTemp = rs.getInt("orderId");
+				Integer foodId = rs.getInt("foodId");
+				Integer qty = rs.getInt("quantity");
+				
+				OrderDetailModel detail = new OrderDetailModel();
+				detail.setOrderId(orderIdTemp);
+				detail.setFoodId(foodId);
+				detail.setQty(qty);
+				
+				listDetail.add(detail);
+			}
+			return listDetail;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 }
