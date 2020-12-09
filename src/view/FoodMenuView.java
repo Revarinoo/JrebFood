@@ -55,17 +55,6 @@ public class FoodMenuView extends View{
 		
 		foodMenuLbl = new JLabel("Food Menu");
 		
-		// data template untuk test
-//		Object[] column = {"Food Id","Name","Price"};
-//		
-//		Object[][] data = {
-//				{"1","Nasi Goreng",14000},
-//				{"2","Mie Goreng",13000},
-//				{"3","Kwetiau Goreng",14000},
-//				{"4","Ayam Goreng",15000},
-//				{"5","Ayam Bakar",15000}
-//		};
-		
 		nameLblPan = new JPanel();
 		nameTfPan= new JPanel();
 		priceLblPan= new JPanel();
