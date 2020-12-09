@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import controller.FoodController;
 import core.view.MainView;
 
 public class MainFormView extends MainView{
@@ -21,6 +22,7 @@ public class MainFormView extends MainView{
 	JDesktopPane desktop = new JDesktopPane();
 //	LoginInternalFrame loginFrame;
 //	OrderInternalFrame orderFrame;
+	FoodMenuView foodMenu;
 	public static boolean loginState = false;
 //	public static boolean logoutState = true;
 	
@@ -84,9 +86,9 @@ public class MainFormView extends MainView{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				add(desktop,BorderLayout.CENTER);
-//				foodMenuInternalFrame = new FoodMenuView();
-//				desktop.add(foodMenuInternalFrame);
+				add(desktop,BorderLayout.CENTER);
+				foodMenu = FoodController.getInstance().showUserFoodMenu();
+				desktop.add(foodMenu);
 			}
 		});
 	}
