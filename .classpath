@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/software/MysqlConnection/Mysql Connector/mysql-connector-java-5.1.49-bin.jar"/>
-	<classpathentry kind="lib" path="D:/Kuliah/Object Oriented Analysis Design/Project/ori3/JrebFood2/External Jar/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/asus/Documents/Semester 5/OOAD/Lab/PROJECT/JrebFood2/External Jar/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/asus/Documents/Semester 5/OOAD/Lab/PROJECT/JrebFood2/External Jar/mysql-connector-java-5.1.49-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

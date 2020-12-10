@@ -1,7 +1,3 @@
-# # /controller/
-# # /core/
-# # /model/
-# # /view/
-# /controller/
-# /model/
-# /view/
+/view/
+/controller/
+/model/

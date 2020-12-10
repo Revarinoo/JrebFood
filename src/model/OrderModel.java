@@ -162,6 +162,34 @@ public class OrderModel {
 	}
 	
 
+	public Vector<OrderModel> getAllFinishedOrder(){
+		Vector<OrderModel> availableOrderList = new Vector<OrderModel>();
+		String query = String.format("SELECT * FROM %s where orderStatus='finished'",tableName);
+
+		ResultSet rs = con.executeQuery(query);
+		
+		try {
+			while(rs.next()) {
+				
+				Integer orderId = rs.getInt("orderId");
+				Integer driverId = rs.getInt("driverId");
+				String address = rs.getString("address");
+				Date orderDate = rs.getDate("orderDate");
+				
+				OrderModel temp = new OrderModel();
+				temp.setOrderId(orderId);
+				temp.setDriverId(driverId);
+				temp.setAddress(address);
+				temp.setDate(orderDate);
+				
+				availableOrderList.add(temp);
+			}
+			return availableOrderList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public OrderModel getOne(Integer orderId) {
 		String query = String.format("SELECT * from %s where orderId=?", tableName);

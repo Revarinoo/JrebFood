@@ -9,8 +9,8 @@ import connect.Connect;
 
 public class OrderDetailModel {
 	
-	protected String tableName;
-	protected Connect con = Connect.getConnection();
+	private String tableName;
+	private Connect con = Connect.getConnection();
 	
 	private Integer orderId;
 	private Integer foodId;
@@ -72,4 +72,20 @@ public class OrderDetailModel {
 	}
 	
 
+	public Integer totalFinishedTransaction() {
+		Integer total = 0;
+		String query = String.format("SELECT SUM(f.foodPrice) AS total FROM orders o JOIN order_details od  ON o.orderId = od.orderId JOIN foods f ON od.foodId = f.foodId WHERE o.orderStatus = 'finished'");
+		ResultSet rs = con.executeQuery(query);
+		try {
+			while(rs.next()) {
+				total = rs.getInt("total");
+			}
+			return total;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+		
+	}
 }

@@ -6,6 +6,7 @@ import java.util.Vector;
 import core.view.View;
 import model.OrderDetailModel;
 import model.OrderModel;
+import view.FinancialSummaryView;
 
 public class OrderController {
 
@@ -44,15 +45,19 @@ public class OrderController {
 		// TODO Auto-generated method stub
 		return target;
 	}
-	
-	
-//	public View view() {
-//		return new OrderController();
-//	}
+
+	public View viewProfit() {
+		return new FinancialSummaryView();
+	}
 
 	public Vector<OrderModel> getAll() {
 		OrderModel order = new OrderModel();
 		return order.getAll();
+	}
+	
+	public Vector<OrderModel> getAllFinishedOrder(){
+		OrderModel order = new OrderModel();
+		return order.getAllFinishedOrder();
 	}
 	
 	public boolean takeOrder(Integer orderId, Integer driverId) {
@@ -108,4 +113,8 @@ public class OrderController {
 		return detail.viewDetailById(orderId);
 	}
 
+	public Integer totalFinishedTransaction() {
+		OrderDetailModel od = new OrderDetailModel();
+		return od.totalFinishedTransaction();
+	}
 }
