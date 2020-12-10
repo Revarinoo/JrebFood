@@ -4,11 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.Closeable;
+
+import java.sql.Date;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -25,48 +27,66 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import controller.EmployeeController;
-import controller.UserController;
+import core.view.DateFormat;
 import core.view.View;
 import model.EmployeeModel;
-import model.UserModel;
 
-import java.util.Calendar;
 
 public class ManageEmployeeView extends View{
 
-	JPanel topPanel, midDetail, midPanel , bottomPanel, dobPanel;
-	JLabel titleLbl, nameLbl, idLbl , roleLbl, idValue, dobLbl, dateLbl, monthLbl, yearLbl;
-	JTextField nameTxt, roleTxt, dateTxt, yearTxt;
+	JPanel topPanel, midDetail, midPanel , bottomPanel;
+	JLabel titleLbl, nameLbl, idLbl , roleLbl, idValue, dobLbl, emailLbl, passwordLbl, statusLbl;
+	JTextField nameTxt, roleTxt, emailTxt, passwordTxt;
 	JButton deleteBtn, hireBtn;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	DefaultTableModel dtm;
 	JTable table;
 	JScrollPane scrollPane;
-	JComboBox<String> roleCB, monthCB;
-	String[] listMonth = new String[] {"January","February","March","April","May","June","July","August","September","October","November","December"};
+	JComboBox<String> roleCB, statusCB;
 	
-	private Integer id;
-	private String role, name;
+	//add external jar di folder External Jar
+	SqlDateModel dobModel;
+	JDatePanelImpl dataPnl;
+	JDatePickerImpl dobPicker;
+	
+	
+	private Integer id, roleId;
+	private String role, name, password, status, email;
+	private Date DOB;
 	JDesktopPane desktop;
 	
 	public ManageEmployeeView(JDesktopPane desktop) {
 		super("Manager");
 		
-		this.width = 600;
-		this.height = 600;
+		this.width = 800;
+		this.height = 900;
 		this.desktop = desktop;
 		super.showForm();
 	}
 
 	@Override
 	public void init() {
+		Properties dateToday = new Properties();
+		dateToday.put("text.today", "Today");
+		dateToday.put("text.month", "Month");
+		dateToday.put("text.year", "Year");
+		dobModel = new SqlDateModel();
+		dataPnl = new JDatePanelImpl(dobModel,dateToday);
+		dobPicker = new JDatePickerImpl(dataPnl, new DateFormat());
+		
 		topPanel = new JPanel();		
 		GridLayout glTable = new GridLayout(2,1);
 		glTable.setVgap(0);
 		midPanel = new JPanel(glTable);
-		GridLayout glMid = new GridLayout(4,2);
+		GridLayout glMid = new GridLayout(7,2);
+		glMid.setVgap(7);
 		midDetail = new JPanel(glMid);
 		bottomPanel = new JPanel();
 		table = new JTable();
@@ -75,22 +95,21 @@ public class ManageEmployeeView extends View{
 		idLbl = new JLabel("Employee ID");
 		idValue = new JLabel("-");
 		
-		dateLbl = new JLabel("Day", SwingConstants.CENTER);
-		monthLbl = new JLabel("Month", SwingConstants.CENTER);
-		yearLbl = new JLabel("Year", SwingConstants.CENTER);
-		dobPanel = new JPanel(new GridLayout(2,3));
 		dobLbl = new JLabel("Date Of Birth");
-		dateTxt = new JTextField();
-		monthCB = new JComboBox<String>();
-		yearTxt = new JTextField();
 		
-		roleCB = new JComboBox<String>();
+		
+		roleCB = new JComboBox<>();
 		roleLbl = new JLabel("Role");
 		roleTxt = new JTextField();
 		
 		nameLbl = new JLabel("Employee Name");
 		nameTxt = new JTextField();
-		
+		emailLbl = new JLabel("Employee Email");
+		emailTxt = new JTextField();
+		passwordLbl = new JLabel("Employee Password");
+		passwordTxt = new JPasswordField();
+		statusLbl = new JLabel("Status");
+		statusCB = new JComboBox<>();
 		deleteBtn = new JButton("Fire Employee");
 		hireBtn = new JButton("Hire Employee");
 		
@@ -101,28 +120,12 @@ public class ManageEmployeeView extends View{
 		Border border = titleLbl.getBorder();
 		Border margin = new EmptyBorder(10,10,20,10);
 		titleLbl.setBorder(new CompoundBorder(border, margin));
-		
-		monthCB.addItem("Jan");
-		monthCB.addItem("Feb");
-		monthCB.addItem("Mar");
-		monthCB.addItem("Apr");
-		monthCB.addItem("May");
-		monthCB.addItem("Jun");
-		monthCB.addItem("Jul");
-		monthCB.addItem("Aug");
-		monthCB.addItem("Sep");
-		monthCB.addItem("Oct");
-		monthCB.addItem("Nov");
-		monthCB.addItem("Dec");
-		
+	
+		statusCB.addItem("active");
+		statusCB.addItem("inactive");
 		roleCB.addItem("Chef");
 		roleCB.addItem("Driver");
-		dobPanel.add(dateLbl);
-		dobPanel.add(monthLbl);
-		dobPanel.add(yearLbl);
-		dobPanel.add(dateTxt);
-		dobPanel.add(monthCB);
-		dobPanel.add(yearTxt);
+		
 		
 		topPanel.add(titleLbl);
 		
@@ -133,7 +136,13 @@ public class ManageEmployeeView extends View{
 		midDetail.add(nameLbl);
 		midDetail.add(nameTxt);
 		midDetail.add(dobLbl);
-		midDetail.add(dobPanel);
+		midDetail.add(dobPicker);
+		midDetail.add(emailLbl);
+		midDetail.add(emailTxt);
+		midDetail.add(passwordLbl);
+		midDetail.add(passwordTxt);
+		midDetail.add(statusLbl);
+		midDetail.add(statusCB);
 		
 		midPanel.add(scrollPane);
 		midPanel.add(midDetail);
@@ -149,6 +158,7 @@ public class ManageEmployeeView extends View{
 
 	@Override
 	public void addListener() {
+		
 		table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -182,13 +192,48 @@ public class ManageEmployeeView extends View{
 				roleCB.setSelectedItem(table.getValueAt(row, 1));
 				nameTxt.setText(table.getValueAt(row, 2).toString());
 				
-				id = Integer.parseInt(idValue.getText());
-				role = (String) roleCB.getSelectedItem();
-				name = nameTxt.getText();
+				dobModel.setValue(Date.valueOf(table.getValueAt(row, 3).toString()));
+//				dobModel.setDate(year, month, day);
+//				dateTxt.setText(table.getValueAt(row, 3).toString().substring(8, 10));
+//				monthTxt.setText(table.getValueAt(row, 3).toString().substring(5, 7));
+//				yearTxt.setText(table.getValueAt(row, 3).toString().substring(0,4));
+				
+				emailTxt.setText(table.getValueAt(row, 4).toString());
+				statusCB.setSelectedItem(table.getValueAt(row, 5));
 			}
 		});
 		
 		
+		hireBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				role = (String) roleCB.getSelectedItem();
+				if(role.equals("Chef")) roleId = 2;
+				else roleId = 3;
+				name = nameTxt.getText();
+				DOB= (Date) dobPicker.getModel().getValue();
+				email = emailTxt.getText();
+				password = passwordTxt.getText();
+				status = (String) statusCB.getSelectedItem();
+				
+				if(EmployeeController.getInstance().createEmployee(roleId, name, DOB, email, password, status)) {
+					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success\n"+
+							name+"\n"+
+							role+ "\n"+
+							email + "\n"+
+							DOB + "\n"+
+							password + "\n"+
+							status + "\n"
+								);
+				}
+				else {
+					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Failed!");
+				}
+				loadData();
+				
+			}
+		});
 	}
 	
 	public void loadData() {

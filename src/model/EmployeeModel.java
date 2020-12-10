@@ -10,8 +10,8 @@ import connect.Connect;
 
 public class EmployeeModel {
 	
-	protected String tableName;
-	protected Connect con = Connect.getConnection();
+	private String tableName="employees";
+	private Connect con = Connect.getConnection();
 
 	private Integer id;
 	private Integer roleId;
@@ -64,7 +64,6 @@ public class EmployeeModel {
 	}
 	
 	public Vector<EmployeeModel> viewAll(Integer roleId){
-		tableName = "employees";
 		Vector<EmployeeModel> data = new Vector<>();
 		String query = String.format("SELECT employeeId,employeeName,employeeDOB,employeeEmail,employeeStatus FROM %s WHERE roleId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
@@ -97,8 +96,25 @@ public class EmployeeModel {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public boolean createEmployee() {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?,null,null)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
 		
-		
+		try {
+			ps.setInt(1, roleId);
+			ps.setString(2, name);
+			ps.setDate(3, DOB);
+			ps.setString(4, email);
+			ps.setString(5, password);
+			ps.setString(6, status);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }
