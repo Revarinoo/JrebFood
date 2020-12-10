@@ -4,7 +4,7 @@ import java.util.Vector;
 
 
 import core.view.View;
-
+import model.OrderDetailModel;
 import model.OrderModel;
 
 public class OrderController {
@@ -101,6 +101,11 @@ public class OrderController {
 	public Vector<OrderModel> viewTakenOrder(Integer driverId){
 		OrderModel order = new OrderModel();
 		return order.viewTakenOrder(driverId);
+	}
+	
+	public Vector<OrderDetailModel> viewDetailById(Integer orderId){
+		OrderDetailModel detail = new OrderDetailModel();
+		return detail.viewDetailById(orderId);
 	}
 
 }
