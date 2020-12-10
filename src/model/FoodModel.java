@@ -128,9 +128,7 @@ public class FoodModel {
 		
 		String query = String.format("SELECT * FROM %s", tableName);
 		ResultSet rs = con.executeQuery(query);
-		
-	
-		
+			
 		try {
 			while(rs.next()) {
 				Integer id = rs.getInt("foodId");
@@ -153,57 +151,7 @@ public class FoodModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
-		
-		
-		
-		
-		return null;
-	}
-	
-
-	
-	public FoodModel(Integer foodId, String name, Integer price, String description,String status) {
-		super();
-		this.tableName = "foods";
-		this.foodId = foodId;
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.status=status;
-	}
-	
-	public Vector<FoodModel> viewAll() {
-		String query = "SELECT * FROM "+ this.tableName;
-		ResultSet rs=con.executeQuery(query);
-		
-		Vector<FoodModel> foods = new Vector<>();
-		try {
-			while(rs.next()) {
-				FoodModel food = mapModel(rs);
-				foods.add(food);
-			}
-			return foods;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public FoodModel mapModel(ResultSet rs) {
-		try {
-			foodId = rs.getInt("foodId");
-			name = rs.getString("foodName");
-			price = rs.getInt("foodPrice");
-			description = rs.getString("foodDescription");
-			status=rs.getString("foodStatus");
-			return new FoodModel(foodId,name,price,description,status);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		}	
 		return null;
 	}
 	
@@ -214,7 +162,18 @@ public class FoodModel {
 		Vector<FoodModel> foods = new Vector<>();
 		try {
 			while(rs.next()) {
-				FoodModel food = mapModel(rs);
+				Integer id = rs.getInt("foodId");
+				String name = rs.getString("foodName");
+				String desc = rs.getString("foodDescription");
+				Integer price = rs.getInt("foodPrice");
+				String status = rs.getString("foodStatus");
+				
+				FoodModel food = new FoodModel();
+				food.setFoodId(id);
+				food.setName(name);
+				food.setDescription(desc);
+				food.setPrice(price);
+				food.setStatus(status);
 				foods.add(food);
 			}
 			return foods;

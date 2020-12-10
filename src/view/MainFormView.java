@@ -27,7 +27,8 @@ public class MainFormView extends MainView{
 
 	RegistrationView registrationFrame;
 	ManageEmployeeView manageEmployeeFrame;
-	FoodMenuView foodMenu;
+	FoodMenuView foodMenuIF;
+	CartView cartIF;
 	public static boolean loginState = false;
 //	public static boolean logoutState = true;
 	
@@ -133,8 +134,18 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				foodMenu = FoodController.getInstance().showUserFoodMenu();
-				desktop.add(foodMenu);
+				foodMenuIF = FoodController.getInstance().showUserFoodMenu();
+				desktop.add(foodMenuIF);
+			}
+		});
+		
+		cartMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop,BorderLayout.CENTER);
+				cartIF = new CartView();
+				desktop.add(cartIF);
 			}
 		});
 		

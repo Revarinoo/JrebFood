@@ -12,7 +12,6 @@ import view.FoodMenuView;
 public class FoodController {
 	
 	private static FoodController instance=null;
-	private FoodModel foodModel;
 	
 	public static FoodController getInstance() {
 		if(instance == null) {
@@ -26,9 +25,7 @@ public class FoodController {
 	}
 	
 	private FoodController() {
-		foodModel = new FoodModel();
 	}
-	
 
 	public void addFood(String name, String desc, Integer price) {
 		FoodModel food = new FoodModel();
@@ -80,7 +77,8 @@ public class FoodController {
 	
 
 	public Vector<FoodModel> viewAllForUser(){
-		return foodModel.viewAllForUser();
+		FoodModel food = new FoodModel();
+		return food.viewAllForUser();
 	}
 	
 	public FoodMenuView showUserFoodMenu() {

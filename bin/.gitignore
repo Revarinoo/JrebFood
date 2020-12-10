@@ -1,6 +1,3 @@
-/connect/
-/controller/
-/core/
-/model/
 /view/
-/Main.class
+/model/
+/controller/
