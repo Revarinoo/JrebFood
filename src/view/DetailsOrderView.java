@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controller.OrderController;
-import controller.OrderDetailController;
 import core.view.View;
 import model.OrderDetailModel;
 import model.OrderModel;
@@ -47,7 +46,7 @@ public class DetailsOrderView extends View{
 		header.add("Order ID");
 		header.add("Food ID");
 		header.add("Quantity");
-		Vector<OrderDetailModel> listDetail = OrderDetailController.getInstance().viewDetailById(orderId);
+		Vector<OrderDetailModel> listDetail = OrderController.getInstance().viewDetailById(orderId);
 		for (OrderDetailModel model : listDetail) {
 			OrderDetailModel detail = (OrderDetailModel) model;
 			detailOrder = new Vector<>();
