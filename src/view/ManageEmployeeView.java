@@ -4,76 +4,112 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import java.sql.Date;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import controller.EmployeeController;
-import controller.UserController;
+import core.view.DateFormat;
 import core.view.View;
 import model.EmployeeModel;
-import model.UserModel;
+
 
 public class ManageEmployeeView extends View{
 
 	JPanel topPanel, midDetail, midPanel , bottomPanel;
-	JLabel titleLbl, nameLbl, idLbl , roleLbl;
-	JTextField idTxt, nameTxt, roleTxt;
-	JButton deleteBtn, hireBtn;
+	JLabel titleLbl, nameLbl, idLbl , roleLbl, idValue, dobLbl, emailLbl, passwordLbl, statusLbl;
+	JTextField nameTxt, roleTxt, emailTxt, passwordTxt;
+	JButton fireBtn, hireBtn;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	DefaultTableModel dtm;
 	JTable table;
 	JScrollPane scrollPane;
+	JComboBox<String> roleCB, statusCB;
 	
-	private Integer id;
-	private String role, name;
-	JDesktopPane desktop;
-	public ManageEmployeeView(JDesktopPane desktop) {
-		super("Manager");
+	//add external jar di folder External Jar
+	SqlDateModel dobModel;
+	JDatePanelImpl dataPnl;
+	JDatePickerImpl dobPicker;
+	
+	
+	private Integer id, roleId;
+	private String role, name, password, status, email;
+	private Date DOB;
+	
+	
+	public ManageEmployeeView() {
+		super("Manager Menu");
 		
-		this.width = 600;
-		this.height = 600;
-		this.desktop = desktop;
+		this.width = 800;
+		this.height = 900;
 		super.showForm();
 	}
 
 	@Override
 	public void init() {
+		Properties dateToday = new Properties();
+		dateToday.put("text.today", "Today");
+		dateToday.put("text.month", "Month");
+		dateToday.put("text.year", "Year");
+		dobModel = new SqlDateModel();
+		dataPnl = new JDatePanelImpl(dobModel,dateToday);
+		dobPicker = new JDatePickerImpl(dataPnl, new DateFormat());
+		
 		topPanel = new JPanel();		
 		GridLayout glTable = new GridLayout(2,1);
 		glTable.setVgap(0);
 		midPanel = new JPanel(glTable);
-		GridLayout glMid = new GridLayout(3,2);
+		GridLayout glMid = new GridLayout(7,2);
+		glMid.setVgap(7);
 		midDetail = new JPanel(glMid);
 		bottomPanel = new JPanel();
 		table = new JTable();
 		scrollPane = new JScrollPane(table);
 		titleLbl = new JLabel("Employee List");
 		idLbl = new JLabel("Employee ID");
-		idTxt = new JTextField();
+		idValue = new JLabel("-");
+		
+		dobLbl = new JLabel("Date Of Birth");
 		
 		
+		roleCB = new JComboBox<>();
 		roleLbl = new JLabel("Role");
 		roleTxt = new JTextField();
 		
 		nameLbl = new JLabel("Employee Name");
 		nameTxt = new JTextField();
-		
-		deleteBtn = new JButton("Fire Employee");
+		emailLbl = new JLabel("Employee Email");
+		emailTxt = new JTextField();
+		passwordLbl = new JLabel("Employee Password");
+		passwordTxt = new JPasswordField();
+		statusLbl = new JLabel("Status");
+		statusCB = new JComboBox<>();
+		fireBtn = new JButton("Fire Employee");
 		hireBtn = new JButton("Hire Employee");
 		
 	}
@@ -83,20 +119,35 @@ public class ManageEmployeeView extends View{
 		Border border = titleLbl.getBorder();
 		Border margin = new EmptyBorder(10,10,20,10);
 		titleLbl.setBorder(new CompoundBorder(border, margin));
+	
+		statusCB.addItem("active");
+		statusCB.addItem("inactive");
+		roleCB.addItem("Chef");
+		roleCB.addItem("Driver");
+		
+		
 		topPanel.add(titleLbl);
 		
 		midDetail.add(idLbl);
-		midDetail.add(idTxt);
+		midDetail.add(idValue);
 		midDetail.add(roleLbl);
-		midDetail.add(roleTxt);
+		midDetail.add(roleCB);
 		midDetail.add(nameLbl);
 		midDetail.add(nameTxt);
+		midDetail.add(dobLbl);
+		midDetail.add(dobPicker);
+		midDetail.add(emailLbl);
+		midDetail.add(emailTxt);
+		midDetail.add(passwordLbl);
+		midDetail.add(passwordTxt);
+		midDetail.add(statusLbl);
+		midDetail.add(statusCB);
 		
 		midPanel.add(scrollPane);
 		midPanel.add(midDetail);
 		
 		bottomPanel.add(hireBtn);
-		bottomPanel.add(deleteBtn);
+		bottomPanel.add(fireBtn);
 		add(topPanel, BorderLayout.NORTH);
 		add(midPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -106,6 +157,7 @@ public class ManageEmployeeView extends View{
 
 	@Override
 	public void addListener() {
+		
 		table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -135,17 +187,60 @@ public class ManageEmployeeView extends View{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();
-				idTxt.setText(table.getValueAt(row, 0).toString());
-				roleTxt.setText(table.getValueAt(row, 1).toString());
+				idValue.setText(table.getValueAt(row, 0).toString());
+				roleCB.setSelectedItem(table.getValueAt(row, 1));
 				nameTxt.setText(table.getValueAt(row, 2).toString());
-				
-				id = Integer.parseInt(idTxt.getText());
-				role = roleTxt.getText();
-				name = nameTxt.getText();
+				dobModel.setValue(Date.valueOf(table.getValueAt(row, 3).toString()));
+				emailTxt.setText(table.getValueAt(row, 4).toString());
+				statusCB.setSelectedItem(table.getValueAt(row, 5));
 			}
 		});
 		
 		
+		hireBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				role = (String) roleCB.getSelectedItem();
+				if(role.equals("Chef")) roleId = 2;
+				else roleId = 3;
+				name = nameTxt.getText();
+				DOB= (Date) dobPicker.getModel().getValue();
+				email = emailTxt.getText();
+				password = passwordTxt.getText();
+				status = (String) statusCB.getSelectedItem();
+				
+				if(EmployeeController.getInstance().createEmployee(roleId, name, DOB, email, password, status)) {
+					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success\n"+
+							name+"\n"+
+							role+ "\n"+
+							email + "\n"+
+							DOB + "\n"+
+							password + "\n"+
+							status + "\n"
+								);
+				}
+				else {
+					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Failed!");
+				}
+				loadData();
+			}
+		});
+		
+		fireBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				id = Integer.parseInt(idValue.getText());
+				int input = JOptionPane.showConfirmDialog(new ManageEmployeeView(), "Are you sure want to fire this employee?","Fire Employee",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if(input == 0) {
+					if(EmployeeController.getInstance().changeStatus(id)) {
+						JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success!");
+					}
+				}
+				loadData();
+			}
+		});
 	}
 	
 	public void loadData() {
