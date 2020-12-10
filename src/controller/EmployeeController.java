@@ -27,7 +27,7 @@ public class EmployeeController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public View view(View target) {
+	public View ManageEmployeeForm(View target) {
 		return target;
 	}
 	
@@ -59,6 +59,13 @@ public class EmployeeController {
 		if(name.equals("")) return false;
 		if(DOB == null || DOB.after(today)) return false;
 		if(email.equals("") || !email.contains("@") || !email.contains("."))return false;
+		return true;
+	}
+	
+	public boolean changeStatus(Integer id) {
+		EmployeeModel employee = new EmployeeModel();
+		employee.setId(id);
+		if(!employee.changeStatus()) return false;
 		return true;
 	}
 }

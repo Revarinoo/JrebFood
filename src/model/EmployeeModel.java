@@ -117,4 +117,18 @@ public class EmployeeModel {
 		}
 	}
 	
+	public boolean changeStatus() {
+		String query = String.format("UPDATE %s SET employeeStatus='inactive' WHERE employeeId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 }

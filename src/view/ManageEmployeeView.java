@@ -43,7 +43,7 @@ public class ManageEmployeeView extends View{
 	JPanel topPanel, midDetail, midPanel , bottomPanel;
 	JLabel titleLbl, nameLbl, idLbl , roleLbl, idValue, dobLbl, emailLbl, passwordLbl, statusLbl;
 	JTextField nameTxt, roleTxt, emailTxt, passwordTxt;
-	JButton deleteBtn, hireBtn;
+	JButton fireBtn, hireBtn;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	DefaultTableModel dtm;
@@ -60,14 +60,13 @@ public class ManageEmployeeView extends View{
 	private Integer id, roleId;
 	private String role, name, password, status, email;
 	private Date DOB;
-	JDesktopPane desktop;
 	
-	public ManageEmployeeView(JDesktopPane desktop) {
-		super("Manager");
+	
+	public ManageEmployeeView() {
+		super("Manager Menu");
 		
 		this.width = 800;
 		this.height = 900;
-		this.desktop = desktop;
 		super.showForm();
 	}
 
@@ -110,7 +109,7 @@ public class ManageEmployeeView extends View{
 		passwordTxt = new JPasswordField();
 		statusLbl = new JLabel("Status");
 		statusCB = new JComboBox<>();
-		deleteBtn = new JButton("Fire Employee");
+		fireBtn = new JButton("Fire Employee");
 		hireBtn = new JButton("Hire Employee");
 		
 	}
@@ -148,7 +147,7 @@ public class ManageEmployeeView extends View{
 		midPanel.add(midDetail);
 		
 		bottomPanel.add(hireBtn);
-		bottomPanel.add(deleteBtn);
+		bottomPanel.add(fireBtn);
 		add(topPanel, BorderLayout.NORTH);
 		add(midPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -191,13 +190,7 @@ public class ManageEmployeeView extends View{
 				idValue.setText(table.getValueAt(row, 0).toString());
 				roleCB.setSelectedItem(table.getValueAt(row, 1));
 				nameTxt.setText(table.getValueAt(row, 2).toString());
-				
 				dobModel.setValue(Date.valueOf(table.getValueAt(row, 3).toString()));
-//				dobModel.setDate(year, month, day);
-//				dateTxt.setText(table.getValueAt(row, 3).toString().substring(8, 10));
-//				monthTxt.setText(table.getValueAt(row, 3).toString().substring(5, 7));
-//				yearTxt.setText(table.getValueAt(row, 3).toString().substring(0,4));
-				
 				emailTxt.setText(table.getValueAt(row, 4).toString());
 				statusCB.setSelectedItem(table.getValueAt(row, 5));
 			}
@@ -231,7 +224,21 @@ public class ManageEmployeeView extends View{
 					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Failed!");
 				}
 				loadData();
-				
+			}
+		});
+		
+		fireBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				id = Integer.parseInt(idValue.getText());
+				int input = JOptionPane.showConfirmDialog(new ManageEmployeeView(), "Are you sure want to fire this employee?","Fire Employee",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if(input == 0) {
+					if(EmployeeController.getInstance().changeStatus(id)) {
+						JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success!");
+					}
+				}
+				loadData();
 			}
 		});
 	}
