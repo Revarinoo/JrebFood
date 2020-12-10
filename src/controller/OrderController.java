@@ -97,5 +97,10 @@ public class OrderController {
 			return false;
 		}
 	}
+	
+	public Vector<OrderModel> viewTakenOrder(Integer driverId){
+		OrderModel order = new OrderModel();
+		return order.viewTakenOrder(driverId);
+	}
 
 }

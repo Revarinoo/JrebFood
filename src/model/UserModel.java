@@ -74,7 +74,7 @@ public class UserModel {
 	}
 	
 	public UserModel getOne(Integer userId) {
-		String query = String.format("SELECT * from %s where userId=?", tableName);
+		String query = String.format("SELECT * from %s where userId=?", "users");
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		try {

@@ -265,4 +265,39 @@ public class OrderModel {
 		}
 		return null;
 	}
+	
+	public Vector<OrderModel> viewTakenOrder(Integer driverId){
+		Vector<OrderModel> historyList = new Vector<OrderModel>();
+		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus NOT IN(\"\",\"finished\")",tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = null;
+		
+		try {
+			ps.setInt(1, driverId);
+			rs = ps.executeQuery();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			while(rs.next()) {
+				Integer orderId = rs.getInt("orderId");
+				String address = rs.getString("address");
+				Date orderDate = rs.getDate("orderDate");
+				
+				OrderModel temp = new OrderModel();
+				temp.setOrderId(orderId);
+				temp.setAddress(address);
+				temp.setDate(orderDate);
+				
+				historyList.add(temp);
+			}
+			return historyList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -58,4 +58,8 @@ public class UserController {
 		if(email.equals("") || phoneNumber.equals("")) return false;
 		return true;
 	}
+	public UserModel getOne(Integer userId) {
+		UserModel user = new UserModel();
+		return user.getOne(userId);
+	}
 }

@@ -19,9 +19,9 @@ public class MainFormView extends MainView{
 
 	JMenuBar mainMenuBar;
 
-	JMenu userMenu,transactionMenu,shopMenu, chefMenu, managerMenu;
+	JMenu userMenu,transactionMenu,shopMenu, chefMenu, managerMenu, driverMenu;
 	JSeparator menuSeparator;
-    JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI;
+    JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI, historyOrderMI, takenOrderMi,availableOrderMI,userinfoMI;
 
 	JDesktopPane desktop = new JDesktopPane();
 
@@ -35,8 +35,10 @@ public class MainFormView extends MainView{
 	ChefAddFoodView chefAddFoodFrame;
 	ChefFoodListView chefFoodListFrame;
 	ChefOrderListView orderListChefFrame;
-	
-	
+	HistoryOrderView historyFrame;
+	TakenOrderView takenOrderFrame;
+	AvailableOrderView availableOrderFrame;
+	UserInformationView userInfoFrame;
 	public MainFormView() {
 		super();
 	}
@@ -68,7 +70,12 @@ public class MainFormView extends MainView{
 		managerMenu = new JMenu("Manager");
 		manageEmployeeMI = new JMenuItem("Manage Employee");
 		financialMI = new JMenuItem("Financial Summary");
-
+		
+		driverMenu = new JMenu("Order For Driver");
+		historyOrderMI = new JMenuItem("History Order");
+		takenOrderMi = new JMenuItem("Taken Order List");
+		availableOrderMI = new JMenuItem("Available Order");
+		userinfoMI = new JMenuItem("User Info");
 	}
 
 	@Override
@@ -98,6 +105,12 @@ public class MainFormView extends MainView{
 		mainMenuBar.add(managerMenu);
 		managerMenu.add(manageEmployeeMI);
 		managerMenu.add(financialMI);
+		
+		mainMenuBar.add(driverMenu);
+		driverMenu.add(historyOrderMI);
+		driverMenu.add(takenOrderMi);
+		driverMenu.add(availableOrderMI);
+		driverMenu.add(userinfoMI);
 		
 		add(mainMenuBar,BorderLayout.NORTH);
 	}
@@ -196,6 +209,54 @@ public class MainFormView extends MainView{
 				OrderController.getInstance().viewOrderQueue(orderListChefFrame);
 				desktop.removeAll();
 				desktop.add(orderListChefFrame);
+			}
+		});
+		
+		historyOrderMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(desktop,BorderLayout.CENTER);
+				historyFrame = new HistoryOrderView(desktop,2,null);
+				desktop.removeAll();
+				desktop.add(historyFrame);
+			}
+		});
+		
+		takenOrderMi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(desktop,BorderLayout.CENTER);
+				takenOrderFrame = new TakenOrderView(desktop, 5);
+				desktop.removeAll();
+				desktop.add(takenOrderFrame);
+			}
+		});
+		
+		availableOrderMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(desktop,BorderLayout.CENTER);
+				availableOrderFrame = new AvailableOrderView(desktop);
+				desktop.removeAll();
+				desktop.add(availableOrderFrame);
+			}
+		});
+		
+		userinfoMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(desktop,BorderLayout.CENTER);
+				userInfoFrame = new UserInformationView(desktop,1);
+				desktop.removeAll();
+				desktop.add(userInfoFrame);
 			}
 		});
 	}
