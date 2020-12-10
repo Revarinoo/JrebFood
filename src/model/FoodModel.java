@@ -122,44 +122,13 @@ public class FoodModel {
 		
 	}
 
-	public Vector<FoodModel> getAll() {
+	public Vector<FoodModel> viewAll() {
 		// TODO Auto-generated method stub
-		Vector<FoodModel> data = new Vector<>();
+		Vector<FoodModel> foods = new Vector<>();
 		
 		String query = String.format("SELECT * FROM %s", tableName);
 		ResultSet rs = con.executeQuery(query);
 			
-		try {
-			while(rs.next()) {
-				Integer id = rs.getInt("foodId");
-				String name = rs.getString("foodName");
-				String desc = rs.getString("foodDescription");
-				Integer price = rs.getInt("foodPrice");
-				String availability = rs.getString("foodStatus");
-				
-				FoodModel food = new FoodModel();
-				food.setFoodId(id);
-				food.setName(name);
-				food.setDescription(desc);
-				food.setPrice(price);
-				food.setStatus(availability);
-				
-				data.add(food);
-				
-			}
-			return data;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		return null;
-	}
-	
-	public Vector<FoodModel> viewAllForUser() {
-		String query = "SELECT * FROM "+ this.tableName + " WHERE foodStatus='available'";
-		ResultSet rs=con.executeQuery(query);
-		
-		Vector<FoodModel> foods = new Vector<>();
 		try {
 			while(rs.next()) {
 				Integer id = rs.getInt("foodId");
@@ -174,16 +143,14 @@ public class FoodModel {
 				food.setDescription(desc);
 				food.setPrice(price);
 				food.setStatus(status);
-				foods.add(food);
+				
+				foods.add(food);		
 			}
 			return foods;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}	
 		return null;
 	}
-	
-	
-	
 
 }

@@ -69,19 +69,12 @@ public class FoodController {
 		return target;
 	}
 
-	public Vector<FoodModel> getAll() {
-		// TODO Auto-generated method stub
+	public Vector<FoodModel> viewAll() {
 		FoodModel food = new FoodModel();
-		return food.getAll();
+		return food.viewAll();
 	}
 	
-
-	public Vector<FoodModel> viewAllForUser(){
-		FoodModel food = new FoodModel();
-		return food.viewAllForUser();
-	}
-	
-	public FoodMenuView showUserFoodMenu() {
+	public FoodMenuView viewMenu() {
 		return new FoodMenuView();
 	}
 

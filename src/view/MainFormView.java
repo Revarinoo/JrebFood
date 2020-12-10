@@ -134,7 +134,8 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				foodMenuIF = FoodController.getInstance().showUserFoodMenu();
+				foodMenuIF = FoodController.getInstance().viewMenu();
+				desktop.removeAll();
 				desktop.add(foodMenuIF);
 			}
 		});
@@ -145,6 +146,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
 				cartIF = new CartView();
+				desktop.removeAll();
 				desktop.add(cartIF);
 			}
 		});
