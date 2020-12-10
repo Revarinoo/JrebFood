@@ -170,7 +170,7 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				EmployeeController.getInstance().ManageEmployeeForm();
+				EmployeeController.getInstance().viewManageEmployeeForm();
 				desktop.removeAll();
 				desktop.add(new ManageEmployeeView());
 			}

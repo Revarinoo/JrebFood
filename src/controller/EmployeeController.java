@@ -28,7 +28,7 @@ public class EmployeeController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public View ManageEmployeeForm() {
+	public View viewManageEmployeeForm() {
 		return new ManageEmployeeView();
 	}
 	
