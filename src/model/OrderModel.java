@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import connect.Connect;
 
+
 public class OrderModel {
 	
 	protected String tableName;
@@ -61,6 +62,62 @@ public class OrderModel {
 		this.status = status;
 	}
 	
+	public boolean updateStatus(Integer orderId, String status) {
+		
+		
+		String query = String.format("UPDATE %s SET orderStatus=? WHERE orderId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setString(1, status);
+			ps.setInt(2, orderId);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return true;
+	}
+	
+	
+	
+	
+	public Vector<OrderModel> getOrderForChef() {
+		// TODO Auto-generated method stub
+		Vector<OrderModel> data = new Vector<>();
+		
+		String query = String.format("SELECT * FROM %s", tableName);
+		ResultSet rs = con.executeQuery(query);
+		
+		try {
+			while (rs.next()) {
+				Integer Id = rs.getInt("orderId");
+				Integer driverId = rs.getInt("driverId");
+				String status = rs.getString("orderStatus");
+				
+				OrderModel order = new OrderModel();
+							
+				order.setOrderId(Id);
+				order.setDriverId(driverId);
+				order.setStatus(status);
+				
+				data.add(order);
+				
+			}
+			return data;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 	public Vector<OrderModel> getAll() {
 		Vector<OrderModel> availableOrderList = new Vector<OrderModel>();
 		String query = String.format("SELECT * FROM %s where orderStatus=\"\"",tableName);
@@ -104,20 +161,7 @@ public class OrderModel {
 		return false;
 	}
 	
-	public boolean updateStatus(Integer orderId, String status) {
-		String query = String.format("UPDATE orders Set orderStatus=? WHERE orderId=?",tableName);
-		PreparedStatement ps = con.prepareStatement(query);
-		try {
-			ps.setString(1, status);
-			ps.setInt(2, orderId);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
+
 	
 	public OrderModel getOne(Integer orderId) {
 		String query = String.format("SELECT * from %s where orderId=?", tableName);
