@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import controller.EmployeeController;
 import controller.FoodController;
 import controller.UserController;
 import core.view.MainView;
@@ -122,7 +123,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
 				manageEmployeeFrame = new ManageEmployeeView(desktop);
-				UserController.getInstance().view(manageEmployeeFrame);
+				EmployeeController.getInstance().view(manageEmployeeFrame);
 				desktop.removeAll();
 				desktop.add(manageEmployeeFrame);
 			}
