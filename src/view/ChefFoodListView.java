@@ -259,7 +259,7 @@ public class ChefFoodListView extends View{
 		header.add("Price");
 		header.add("Availability");
 		
-		Vector<FoodModel> listfood = FoodController.getInstance().getAll();
+		Vector<FoodModel> listfood = FoodController.getInstance().viewAll();
 		
 		for (FoodModel model : listfood) {
 			FoodModel food = (FoodModel) model;

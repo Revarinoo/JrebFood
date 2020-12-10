@@ -30,5 +30,10 @@ public class CartModel {
 		this.qty = qty;
 	}
 	
+	public CartModel() {
+		this.tableName = "carts";
+	}
+	
+	
 	
 }
