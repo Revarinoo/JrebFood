@@ -7,6 +7,7 @@ import java.util.Vector;
 import core.view.View;
 import model.EmployeeModel;
 import model.UserModel;
+import view.ManageEmployeeView;
 
 public class EmployeeController {
 
@@ -27,8 +28,8 @@ public class EmployeeController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public View ManageEmployeeForm(View target) {
-		return target;
+	public View ManageEmployeeForm() {
+		return new ManageEmployeeView();
 	}
 	
 	public Vector<EmployeeModel> viewAll(Integer roleId){
