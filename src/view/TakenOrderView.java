@@ -26,7 +26,7 @@ public class TakenOrderView extends View{
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
 	JLabel titleLabel,chooseLabel;
-	JButton btnOrder,btnDeliver;
+	JButton btnOrder,btnDeliver, btnDetail;
 	JTable tableOrder;
 	JScrollPane sp;
 	JTextField chooseTxt;
@@ -108,6 +108,7 @@ public class TakenOrderView extends View{
 		
 		//Bottom2
 		bottom2 = new JPanel();
+		btnDetail = new JButton("Detail");
 		btnOrder = new JButton("Order");
 		btnDeliver = new JButton("Deliver");
 	}
@@ -130,6 +131,7 @@ public class TakenOrderView extends View{
 		bottom1.add(choosePanel);
 		
 		//Bottom2
+		bottom2.add(btnDetail);
 		bottom2.add(btnOrder);
 		bottom2.add(btnDeliver);
 		bottom.add(bottom1);
@@ -218,6 +220,20 @@ public class TakenOrderView extends View{
 							JOptionPane.showMessageDialog(null,"Deliver Success");
 						}
 					}
+				}
+			}
+		});
+		btnDetail.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int row = Integer.parseInt(chooseTxt.getText());
+					desktop.add(new DetailsOrderView(desktop, row));
+					dispose();	
 				}
 			}
 		});
