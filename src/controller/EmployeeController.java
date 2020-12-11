@@ -69,4 +69,9 @@ public class EmployeeController {
 		if(!employee.changeStatus()) return false;
 		return true;
 	}
+	
+	public Vector<EmployeeModel> listDriver(){
+		EmployeeModel employee = new EmployeeModel();
+		return employee.listDriver();
+	}
 }
