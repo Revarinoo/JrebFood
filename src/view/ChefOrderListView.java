@@ -76,7 +76,7 @@ public class ChefOrderListView extends View{
 		 driverIdTxt.setEditable(false);
 		 
 		 
-		 changeStatusBtn = new JButton("Finish Order");
+		 changeStatusBtn = new JButton("Cook Order");
 		
 	}
 
@@ -152,7 +152,7 @@ public class ChefOrderListView extends View{
 		changeStatusBtn.addActionListener(new ActionListener() {
 			
 			// Testing doang. Nanti tunggu kepastian aslab ganti nya jadi apa
-			String statusFinished = "ordered";
+			String statusFinished = "cooked";
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
