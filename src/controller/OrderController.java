@@ -46,8 +46,8 @@ public class OrderController {
 		return target;
 	}
 
-	public View viewProfit() {
-		return new FinancialSummaryView();
+	public View viewProfit(View target) {
+		return target;
 	}
 
 	public Vector<OrderModel> getAll() {

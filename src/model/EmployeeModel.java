@@ -128,7 +128,27 @@ public class EmployeeModel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}	
+	}
+	
+	public Vector<EmployeeModel> listDriver(){
+		Vector<EmployeeModel> data = new Vector<>();
+		String query = String.format("SELECT employeeId, employeeName FROM %s WHERE roleId=3", tableName);
+		ResultSet rs = con.executeQuery(query);
+		try {
+			while(rs.next()) {
+				Integer id = rs.getInt("employeeId");
+				String name = rs.getString("employeeName");
+				
+				EmployeeModel employee = new EmployeeModel();
+				employee.setId(id);
+				employee.setName(name);
+				data.add(employee);
+			}
+			return data;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+		return null;
 	}
 }

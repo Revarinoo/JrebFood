@@ -267,7 +267,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
 				desktop.removeAll();
-				desktop.add(OrderController.getInstance().viewProfit());
+				desktop.add(OrderController.getInstance().viewProfit(new FinancialSummaryView(desktop)));
 			}
 		});
 	}
