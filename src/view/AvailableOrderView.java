@@ -2,11 +2,16 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +25,7 @@ import model.OrderModel;
 public class AvailableOrderView extends View {
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
-	JLabel transLabel,transIdLabel;
+	JLabel titleLabel,chooseLabel;
 	JButton btnTake;
 	JTable tableOrder;
 	JScrollPane sp;
@@ -28,7 +33,7 @@ public class AvailableOrderView extends View {
 	Vector<Vector<String>> dataOrder;
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
-	
+	Vector<OrderModel> listOrder;
 	public AvailableOrderView(JDesktopPane desktop) {
 		super("Available Order");
 		// TODO Auto-generated constructor stub
@@ -46,7 +51,7 @@ public class AvailableOrderView extends View {
 		bottom = new JPanel(new GridLayout(2,1));
 		
 		//Top
-		transLabel = new JLabel("Available Order");
+		titleLabel = new JLabel("Available Order");
 		
 		//Center
 		center = new JPanel();
@@ -59,8 +64,9 @@ public class AvailableOrderView extends View {
 		header.add("Order ID");
 		header.add("Order Date");
 		header.add("Address");
-		Vector<OrderModel> listHistory = OrderController.getInstance().getAll();
-		for (OrderModel model : listHistory) {
+		listOrder = OrderController.getInstance().getAll();
+		
+		for (OrderModel model : listOrder) {
 			OrderModel order = (OrderModel) model;
 			detailOrder = new Vector<>();
 			detailOrder.add(order.getOrderId().toString());
@@ -82,7 +88,7 @@ public class AvailableOrderView extends View {
 		chooseTxt = new JTextField();
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
-		transIdLabel = new JLabel("Choosen Order");
+		chooseLabel = new JLabel("Choosen Order");
 		
 		//Bottom2
 		bottom2 = new JPanel();
@@ -93,7 +99,7 @@ public class AvailableOrderView extends View {
 	public void addComponent() {
 		// TODO Auto-generated method stub
 		//Top
-		top.add(transLabel);
+		top.add(titleLabel);
 		main.add(top,BorderLayout.NORTH);
 		
 		//Center
@@ -102,7 +108,7 @@ public class AvailableOrderView extends View {
 		
 		//Bottom
 		//Bottom1
-		choosePanel.add(transIdLabel);
+		choosePanel.add(chooseLabel);
 		choosePanel.add(chooseTxt);
 		bottom1.add(choosePanel);
 		
@@ -111,6 +117,9 @@ public class AvailableOrderView extends View {
 		bottom.add(bottom1);
 		bottom.add(bottom2);
 		
+		if(listOrder.size() == 0) {
+			bottom.setVisible(false);
+		}
 		main.add(bottom,BorderLayout.SOUTH);
 		add(main);
 	}
@@ -118,7 +127,51 @@ public class AvailableOrderView extends View {
 	@Override
 	public void addListener() {
 		// TODO Auto-generated method stub
-		
+		tableOrder.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = tableOrder.getSelectedRow();
+				chooseTxt.setText(tableOrder.getValueAt(row, 0).toString());
+			}
+		});
+		btnTake.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to proceed order?", "Confirmation",JOptionPane.YES_NO_OPTION);
+				}
+			}
+		});
 	}
 
 }
