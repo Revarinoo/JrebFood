@@ -106,5 +106,11 @@ public class UserModel {
 		return null;
 	}
 
+	public Integer validateLogin() {
+		Integer roleId = 0;
+//		String query = String.format("SELECT * FROM ", arg1);
+		
+		return roleId;
+	}
 	
 }

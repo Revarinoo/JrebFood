@@ -103,7 +103,6 @@ public class MainFormView extends MainView{
 		chefMenu.add(chefAddFoodMI);
 		chefMenu.add(chefFoodListMI);
 		chefMenu.add(chefOrderListMI);
-		
 	
 		mainMenuBar.add(managerMenu);
 		managerMenu.add(manageEmployeeMI);
