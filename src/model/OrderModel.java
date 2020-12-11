@@ -120,7 +120,7 @@ public class OrderModel {
 	
 	public Vector<OrderModel> getAll() {
 		Vector<OrderModel> availableOrderList = new Vector<OrderModel>();
-		String query = String.format("SELECT * FROM %s where orderStatus=\"\"",tableName);
+		String query = String.format("SELECT * FROM %s where orderStatus='not accepted'",tableName);
 
 		ResultSet rs = con.executeQuery(query);
 		
@@ -243,12 +243,15 @@ public class OrderModel {
 				Integer orderIdTemp = rs.getInt("orderId");
 				String address = rs.getString("address");
 				Date orderDate = rs.getDate("orderDate");
+				Integer userId = rs.getInt("userId");
+				String orderStatus = rs.getString("orderStatus");
 				
 				OrderModel temp = new OrderModel();
 				temp.setOrderId(orderIdTemp);
 				temp.setAddress(address);
 				temp.setDate(orderDate);
-				
+				temp.setUserId(userId);
+				temp.setStatus(orderStatus);
 				
 				return temp;
 			}
@@ -261,7 +264,7 @@ public class OrderModel {
 	
 	public Vector<OrderModel> viewAllHistoryForUser(Integer userId){
 		Vector<OrderModel> historyList = new Vector<OrderModel>();
-		String query = String.format("SELECT * FROM %s where userId=? AND orderStatus=\"finished\"",tableName);
+		String query = String.format("SELECT * FROM %s where userId=? AND orderStatus='finished'",tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		
@@ -296,7 +299,7 @@ public class OrderModel {
 	
 	public Vector<OrderModel> viewAllHistoryForDriver(Integer driverId){
 		Vector<OrderModel> historyList = new Vector<OrderModel>();
-		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus=\"finished\"",tableName);
+		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus='finished'",tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		
@@ -331,7 +334,7 @@ public class OrderModel {
 	
 	public Vector<OrderModel> viewTakenOrder(Integer driverId){
 		Vector<OrderModel> historyList = new Vector<OrderModel>();
-		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus NOT IN(\"\",\"finished\")",tableName);
+		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus NOT IN('not accepted','finished')",tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		
@@ -348,11 +351,13 @@ public class OrderModel {
 				Integer orderId = rs.getInt("orderId");
 				String address = rs.getString("address");
 				Date orderDate = rs.getDate("orderDate");
+				String orderStatus = rs.getString("orderStatus");
 				
 				OrderModel temp = new OrderModel();
 				temp.setOrderId(orderId);
 				temp.setAddress(address);
 				temp.setDate(orderDate);
+				temp.setStatus(orderStatus);
 				
 				historyList.add(temp);
 			}

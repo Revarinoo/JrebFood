@@ -2,6 +2,8 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -18,21 +20,22 @@ public class UserInformationView extends View{
 	JLabel titleLabel, useridLabel,userid, userNameLabel,username, phoneLabel, phone, addressLabel, address;
 	JButton btnProceed;
 	JDesktopPane desktop;
-	Integer userId;
-	public UserInformationView(JDesktopPane desktop, Integer userId) {
+	Integer userId, orderId;
+	
+	public UserInformationView(JDesktopPane desktop, Integer userId, Integer orderId) {
 		super("User Information");
 		// TODO Auto-generated constructor stub
 		this.width=600;
 		this.height=600; 
 		this.desktop = desktop;
 		this.userId = userId;
+		this.orderId = orderId;
 		loadData();
 		super.showForm();
 	}
 
 	private void loadData() {
 		// TODO Auto-generated method stub
-		System.out.println(userId);
 		UserModel user = UserController.getInstance().getOne(userId);
 		userid.setText(user.getUserId().toString());
 		username.setText(user.getName().toString());
@@ -92,7 +95,15 @@ public class UserInformationView extends View{
 	@Override
 	public void addListener() {
 		// TODO Auto-generated method stub
-		
+		btnProceed.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				desktop.add(new DetailsOrderView(desktop, orderId));
+				dispose();	
+			}
+		});
 	}
 
 

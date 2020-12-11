@@ -101,6 +101,7 @@ public class HistoryOrderView extends View{
 		//Bottom
 		//Bottom1
 		chooseTxt = new JTextField();
+		chooseTxt.setEditable(false);
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
 		chooseLabel = new JLabel("Choosen Order");

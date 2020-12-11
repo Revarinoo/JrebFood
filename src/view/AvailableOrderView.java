@@ -34,33 +34,19 @@ public class AvailableOrderView extends View {
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
 	Vector<OrderModel> listOrder;
+	
 	public AvailableOrderView(JDesktopPane desktop) {
 		super("Available Order");
 		// TODO Auto-generated constructor stub
 		this.width=600;
 		this.height=600; 
 		this.desktop = desktop;
+		loadData();
 		super.showForm();
 	}
 
-	@Override
-	public void init() {
+	private void loadData() {
 		// TODO Auto-generated method stub
-		main = new JPanel(new BorderLayout());
-		top = new JPanel();
-		bottom = new JPanel(new GridLayout(2,1));
-		
-		//Top
-		titleLabel = new JLabel("Available Order");
-		
-		//Center
-		center = new JPanel();
-		tableOrder = new JTable();
-		sp = new JScrollPane(tableOrder);
-		header = new Vector<>();
-		
-		dataOrder = new Vector<>();
-		header = new Vector<>();
 		header.add("Order ID");
 		header.add("Order Date");
 		header.add("Address");
@@ -82,10 +68,34 @@ public class AvailableOrderView extends View {
 			}
 		};
 		tableOrder.setModel(dtm);
+		if(listOrder.size() == 0) {
+			bottom.setVisible(false);
+		}
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		main = new JPanel(new BorderLayout());
+		top = new JPanel();
+		bottom = new JPanel(new GridLayout(2,1));
+		
+		//Top
+		titleLabel = new JLabel("Available Order");
+		
+		//Center
+		center = new JPanel();
+		tableOrder = new JTable();
+		sp = new JScrollPane(tableOrder);
+		header = new Vector<>();
+		
+		dataOrder = new Vector<>();
+		header = new Vector<>();
 		
 		//Bottom
 		//Bottom1
 		chooseTxt = new JTextField();
+		chooseTxt.setEditable(false);
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
 		chooseLabel = new JLabel("Choosen Order");
@@ -117,9 +127,7 @@ public class AvailableOrderView extends View {
 		bottom.add(bottom1);
 		bottom.add(bottom2);
 		
-		if(listOrder.size() == 0) {
-			bottom.setVisible(false);
-		}
+		
 		main.add(bottom,BorderLayout.SOUTH);
 		add(main);
 	}
@@ -160,6 +168,7 @@ public class AvailableOrderView extends View {
 				chooseTxt.setText(tableOrder.getValueAt(row, 0).toString());
 			}
 		});
+		
 		btnTake.addActionListener(new ActionListener() {
 			
 			@Override
@@ -169,6 +178,18 @@ public class AvailableOrderView extends View {
 					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
 				}else {					
 					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to proceed order?", "Confirmation",JOptionPane.YES_NO_OPTION);
+					if(confirm == 0) { // yes
+						JOptionPane.showMessageDialog(null,"Take Order Success");
+						Integer orderId = Integer.parseInt(chooseTxt.getText());
+						
+						OrderController temp = OrderController.getInstance();
+						temp.takeOrder(orderId, 5);
+						
+						OrderModel orderTemp = temp.getOne(orderId);
+						
+						desktop.add(new UserInformationView(desktop,orderTemp.getUserId(),orderId));
+						dispose();
+					}
 				}
 			}
 		});
