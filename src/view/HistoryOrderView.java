@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,7 +25,7 @@ import model.OrderModel;
 public class HistoryOrderView extends View{
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
-	JLabel transLabel,transIdLabel;
+	JLabel titleLabel,chooseLabel;
 	JButton btnDetail;
 	JTable tableOrder;
 	JScrollPane sp;
@@ -33,6 +34,8 @@ public class HistoryOrderView extends View{
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
 	Integer id,roleId=null;
+	Vector<OrderModel> listHistory;
+	
 	public HistoryOrderView(JDesktopPane desktop, Integer id,Integer roleId) {
 		super("History");
 		// TODO Auto-generated constructor stub
@@ -50,13 +53,14 @@ public class HistoryOrderView extends View{
 		header.add("Order ID");
 		header.add("Order Date");
 		header.add("Address");
-		Vector<OrderModel> listHistory = null;
 		if(roleId == null) {
 			listHistory = OrderController.getInstance().viewAllHistoryForUser(id);
 		}else {
 			listHistory = OrderController.getInstance().viewAllHistoryForDriver(id);
 		}
-		
+		if(listHistory.size() == 0) {
+			bottom.setVisible(false);
+		}
 		for (OrderModel model : listHistory) {
 			OrderModel order = (OrderModel) model;
 			detailOrder = new Vector<>();
@@ -83,7 +87,7 @@ public class HistoryOrderView extends View{
 		bottom = new JPanel(new GridLayout(2,1));
 		
 		//Top
-		transLabel = new JLabel("Order History");
+		titleLabel = new JLabel("Order History");
 		
 		//Center
 		center = new JPanel();
@@ -99,7 +103,7 @@ public class HistoryOrderView extends View{
 		chooseTxt = new JTextField();
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
-		transIdLabel = new JLabel("Choosen Order");
+		chooseLabel = new JLabel("Choosen Order");
 		
 		//Bottom2
 		bottom2 = new JPanel();
@@ -110,7 +114,7 @@ public class HistoryOrderView extends View{
 	public void addComponent() {
 		// TODO Auto-generated method stub
 		//Top
-				top.add(transLabel);
+				top.add(titleLabel);
 				main.add(top,BorderLayout.NORTH);
 				
 				//Center
@@ -119,7 +123,7 @@ public class HistoryOrderView extends View{
 				
 				//Bottom
 				//Bottom1
-				choosePanel.add(transIdLabel);
+				choosePanel.add(chooseLabel);
 				choosePanel.add(chooseTxt);
 				bottom1.add(choosePanel);
 				
@@ -174,9 +178,15 @@ public class HistoryOrderView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int row = Integer.parseInt(chooseTxt.getText());
-				desktop.add(new DetailsOrderView(desktop, row));
-				dispose();
+				
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose order history!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int row = Integer.parseInt(chooseTxt.getText());
+					desktop.add(new DetailsOrderView(desktop, row));
+					dispose();	
+				}
+				
 			}
 		});
 	}
