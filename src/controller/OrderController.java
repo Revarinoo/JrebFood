@@ -2,11 +2,13 @@ package controller;
 
 import java.util.Vector;
 
+import javax.swing.JDesktopPane;
 
 import core.view.View;
 import model.OrderDetailModel;
 import model.OrderModel;
 import view.FinancialSummaryView;
+import view.UserOrderView;
 
 public class OrderController {
 
@@ -39,6 +41,17 @@ public class OrderController {
 		
 		OrderModel order = new OrderModel();
 		return order.getOrderForChef();
+	}
+	
+	public View viewOrders(JDesktopPane desktop, Integer userId) {
+		return new UserOrderView(desktop, userId);
+	}
+	
+	public Vector<OrderModel> viewOrderList(Integer userId, String status){
+		OrderModel order = new OrderModel();
+		order.setUserId(userId);
+		order.setStatus(status);
+		return order.getActiveOrder();
 	}
 	
 	public View viewOrderQueue(View target) {
@@ -116,5 +129,22 @@ public class OrderController {
 	public Integer totalFinishedTransaction() {
 		OrderDetailModel od = new OrderDetailModel();
 		return od.totalFinishedTransaction();
+	}
+
+	public boolean deleteOrder(Integer orderId) {
+		
+		OrderDetailModel orderDetail = new OrderDetailModel();
+		orderDetail.setOrderId(orderId);
+		orderDetail.deleteDetailByOrder(orderId);
+		
+		OrderModel order = new OrderModel();
+		order.setOrderId(orderId);
+		order.deleteOrder(orderId);
+		
+		if (order.deleteOrder(orderId) == false) {
+			return false;
+		}
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

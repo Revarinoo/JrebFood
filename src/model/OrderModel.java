@@ -145,6 +145,41 @@ public class OrderModel {
 		return null;
 	}
 	
+	public Vector<OrderModel> getActiveOrder() {
+		Vector<OrderModel> activerderList = new Vector<OrderModel>();
+		String query = String.format("SELECT * FROM %s WHERE userId=? AND NOT(orderStatus=?)",tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		ResultSet rs = null;
+		
+		try {
+			ps.setInt(1, userId);
+			ps.setString(2, status);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Integer orderId = rs.getInt("orderId");
+				String address = rs.getString("address");
+				Date orderDate = rs.getDate("orderDate");
+				String orderStatus = rs.getString("orderStatus");
+				
+				OrderModel temp = new OrderModel();
+				temp.setOrderId(orderId);
+				temp.setAddress(address);
+				temp.setDate(orderDate);
+				temp.setStatus(orderStatus);
+				
+				activerderList.add(temp);
+			}
+			return activerderList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	public boolean takeOrder(Integer orderId, Integer driverId) {
 		String query = String.format("UPDATE %s Set orderStatus=?,driverId=? WHERE orderId=?",tableName);
 		PreparedStatement ps = con.prepareStatement(query);
@@ -327,5 +362,22 @@ public class OrderModel {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public boolean deleteOrder(Integer orderId) {
+		// TODO Auto-generated method stub
+			// TODO Auto-generated method stub
+			String query = String.format("DELETE FROM %s WHERE orderId=?", tableName);
+			PreparedStatement ps = con.prepareStatement(query);
+			
+			try {
+				ps.setInt(1, orderId);
+				ps.executeUpdate();
+				
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
 	}
 }

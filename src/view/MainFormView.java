@@ -34,6 +34,7 @@ public class MainFormView extends MainView{
 	public static boolean loginState = false;
 //	public static boolean logoutState = true;
 	
+	UserOrderView userOrderFrame;
 	ChefAddFoodView chefAddFoodFrame;
 	ChefFoodListView chefFoodListFrame;
 	ChefOrderListView orderListChefFrame;
@@ -57,7 +58,7 @@ public class MainFormView extends MainView{
 		
 		transactionMenu = new JMenu("Transaction");
 		orderMI = new JMenuItem("Order");
-		historyMI = new JMenuItem("History");
+		
 		
 		shopMenu = new JMenu("Shop");
 		foodMI = new JMenuItem("Food Menu");
@@ -91,7 +92,7 @@ public class MainFormView extends MainView{
 		
 		mainMenuBar.add(transactionMenu);
 		transactionMenu.add(orderMI);
-		transactionMenu.add(historyMI);
+		
 		
 		mainMenuBar.add(shopMenu);
 		shopMenu.add(foodMI);
@@ -141,6 +142,17 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+			}
+		});
+		
+		orderMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop,BorderLayout.CENTER);
+				desktop.removeAll();
+				desktop.add(OrderController.getInstance().viewOrders(desktop, 1));
+				
 			}
 		});
 		
@@ -219,7 +231,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,2,null);
+				historyFrame = new HistoryOrderView(desktop,1,null);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}

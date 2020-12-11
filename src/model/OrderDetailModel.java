@@ -17,6 +17,9 @@ public class OrderDetailModel {
 	private Integer qty;
 	
 	
+	public OrderDetailModel() {
+		this.tableName = "order_details";
+	}
 	public Integer getOrderId() {
 		return orderId;
 	}
@@ -87,5 +90,20 @@ public class OrderDetailModel {
 			return 0;
 		}
 		
+	}
+	public boolean deleteDetailByOrder(Integer orderId) {
+		// TODO Auto-generated method stub
+		String query = String.format("DELETE FROM %s WHERE orderId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, orderId);
+			ps.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
