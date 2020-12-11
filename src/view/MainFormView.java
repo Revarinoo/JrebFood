@@ -22,7 +22,7 @@ public class MainFormView extends MainView{
 
 	JMenu userMenu,transactionMenu,shopMenu, chefMenu, managerMenu, driverMenu;
 	JSeparator menuSeparator;
-    JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI, historyOrderMI, takenOrderMi,availableOrderMI,userinfoMI;
+    JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI, historyOrderMI, takenOrderMi,availableOrderMI;
 
 	JDesktopPane desktop = new JDesktopPane();
 
@@ -41,7 +41,6 @@ public class MainFormView extends MainView{
 	HistoryOrderView historyFrame;
 	TakenOrderView takenOrderFrame;
 	AvailableOrderView availableOrderFrame;
-	UserInformationView userInfoFrame;
 	public MainFormView() {
 		super();
 	}
@@ -78,7 +77,6 @@ public class MainFormView extends MainView{
 		historyOrderMI = new JMenuItem("History Order");
 		takenOrderMi = new JMenuItem("Taken Order List");
 		availableOrderMI = new JMenuItem("Available Order");
-		userinfoMI = new JMenuItem("User Info");
 	}
 
 	@Override
@@ -113,7 +111,6 @@ public class MainFormView extends MainView{
 		driverMenu.add(historyOrderMI);
 		driverMenu.add(takenOrderMi);
 		driverMenu.add(availableOrderMI);
-		driverMenu.add(userinfoMI);
 		
 		add(mainMenuBar,BorderLayout.NORTH);
 	}
@@ -231,7 +228,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,1,null);
+				historyFrame = new HistoryOrderView(desktop,5,3);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
@@ -258,18 +255,6 @@ public class MainFormView extends MainView{
 				availableOrderFrame = new AvailableOrderView(desktop);
 				desktop.removeAll();
 				desktop.add(availableOrderFrame);
-			}
-		});
-		
-		userinfoMI.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				add(desktop,BorderLayout.CENTER);
-				userInfoFrame = new UserInformationView(desktop,1);
-				desktop.removeAll();
-				desktop.add(userInfoFrame);
 			}
 		});
 		
