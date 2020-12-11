@@ -2,6 +2,8 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -9,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,7 +25,7 @@ import model.OrderModel;
 public class TakenOrderView extends View{
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
-	JLabel transLabel,transIdLabel;
+	JLabel titleLabel,chooseLabel;
 	JButton btnOrder,btnDeliver;
 	JTable tableOrder;
 	JScrollPane sp;
@@ -31,6 +34,8 @@ public class TakenOrderView extends View{
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
 	Integer driverId;
+	Vector<OrderModel> listOrder;
+	
 	
 	public TakenOrderView(JDesktopPane desktop, Integer driverId) {
 		super("Taken Order");
@@ -48,8 +53,11 @@ public class TakenOrderView extends View{
 		header.add("Order ID");
 		header.add("Order Date");
 		header.add("Address");
-		Vector<OrderModel> listHistory = OrderController.getInstance().viewTakenOrder(driverId);
-		for (OrderModel model : listHistory) {
+		listOrder = OrderController.getInstance().viewTakenOrder(driverId);
+		if(listOrder.size() == 0) {
+			bottom.setVisible(false);
+		}
+		for (OrderModel model : listOrder) {
 			OrderModel order = (OrderModel) model;
 			detailOrder = new Vector<>();
 			detailOrder.add(order.getOrderId().toString());
@@ -76,7 +84,7 @@ public class TakenOrderView extends View{
 		bottom = new JPanel(new GridLayout(2,1));
 		
 		//Top
-		transLabel = new JLabel("Your Taken Order");
+		titleLabel = new JLabel("Your Taken Order");
 		
 		//Center
 		center = new JPanel();
@@ -92,7 +100,7 @@ public class TakenOrderView extends View{
 		chooseTxt = new JTextField();
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
-		transIdLabel = new JLabel("Choosen Order");
+		chooseLabel = new JLabel("Choosen Order");
 		
 		//Bottom2
 		bottom2 = new JPanel();
@@ -104,7 +112,7 @@ public class TakenOrderView extends View{
 	public void addComponent() {
 		// TODO Auto-generated method stub
 		//Top
-		top.add(transLabel);
+		top.add(titleLabel);
 		main.add(top,BorderLayout.NORTH);
 		
 		//Center
@@ -113,7 +121,7 @@ public class TakenOrderView extends View{
 		
 		//Bottom
 		//Bottom1
-		choosePanel.add(transIdLabel);
+		choosePanel.add(chooseLabel);
 		choosePanel.add(chooseTxt);
 		bottom1.add(choosePanel);
 		
@@ -161,6 +169,32 @@ public class TakenOrderView extends View{
 				// TODO Auto-generated method stub
 				int row = tableOrder.getSelectedRow();
 				chooseTxt.setText(tableOrder.getValueAt(row, 0).toString());
+			}
+		});
+		
+		btnOrder.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to order to restarutant?", "Confirmation",JOptionPane.YES_NO_OPTION);
+				}
+			}
+		});
+		
+		btnDeliver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to deliver order?", "Confirmation",JOptionPane.YES_NO_OPTION);
+				}
 			}
 		});
 	}

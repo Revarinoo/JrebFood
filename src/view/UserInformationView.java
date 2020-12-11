@@ -15,7 +15,7 @@ import model.UserModel;
 public class UserInformationView extends View{
 	
 	JPanel main,top,center,centerData,centerButton;
-	JLabel activeLabel, useridLabel,userid, userNameLabel,username, phoneLabel, phone, addressLabel, address;
+	JLabel titleLabel, useridLabel,userid, userNameLabel,username, phoneLabel, phone, addressLabel, address;
 	JButton btnProceed;
 	JDesktopPane desktop;
 	Integer userId;
@@ -48,10 +48,9 @@ public class UserInformationView extends View{
 		center = new JPanel(new GridLayout(2,1));
 		
 		//Top
-		activeLabel = new JLabel("User Information");
+		titleLabel = new JLabel("User Information");
 		
 		//Center
-
 		centerData = new JPanel(new GridLayout(4,2));
 		useridLabel = new JLabel("User ID: ");
 		userid = new JLabel();
@@ -69,7 +68,7 @@ public class UserInformationView extends View{
 	public void addComponent() {
 		// TODO Auto-generated method stub
 		//Top
-				top.add(activeLabel);
+				top.add(titleLabel);
 				main.add(top,BorderLayout.NORTH);
 				
 				//Center
