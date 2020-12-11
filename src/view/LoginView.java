@@ -6,9 +6,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -16,6 +19,9 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import controller.EmployeeController;
+import controller.UserController;
+import core.view.MainView;
 import core.view.View;
 
 public class LoginView extends View{
@@ -24,6 +30,7 @@ public class LoginView extends View{
 	JLabel titleLbl, emailLbl, passwordLbl;
 	JTextField emailTxt, passwordTxt;
 	JButton login;
+	private String email, password;
 
 	public LoginView() {
 		super("Authentication");
@@ -86,8 +93,24 @@ public class LoginView extends View{
 
 	@Override
 	public void addListener() {
-		// TODO Auto-generated method stub
-		
+		login.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				email = emailTxt.getText();
+				password = passwordTxt.getText();
+				boolean user = UserController.getInstance().validateLogin(email, password);
+				boolean employee = EmployeeController.getInstance().validateLogin(email, password);
+				if(user||employee) {
+					JOptionPane.showMessageDialog(LoginView.this, "Login Success!\n");
+					MainFormView.updateMenuBar();
+					dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(LoginView.this, "Wrong Email/password!");
+				}
+			}
+		});
 	}
 
 }

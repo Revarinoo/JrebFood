@@ -151,4 +151,27 @@ public class EmployeeModel {
 		}
 		return null;
 	}
+	
+	public Integer validateLogin() {
+		String query = String.format("SELECT roleId FROM %s WHERE employeeEmail=? AND employeePassword=?",tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = null;
+		
+		try {
+			ps.setString(1, email);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(rs.next()) {
+				roleId = rs.getInt("roleId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return roleId;
+	}
 }

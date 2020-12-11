@@ -3,3 +3,7 @@
 # /model/
 # /view/
 # /controller/
+/controller/
+/model/
+/view/
+/core/

@@ -7,6 +7,7 @@ import java.util.Vector;
 import core.view.View;
 import model.EmployeeModel;
 import model.UserModel;
+import view.MainFormView;
 import view.ManageEmployeeView;
 
 public class EmployeeController {
@@ -73,5 +74,23 @@ public class EmployeeController {
 	public Vector<EmployeeModel> listDriver(){
 		EmployeeModel employee = new EmployeeModel();
 		return employee.listDriver();
+	}
+	
+	public boolean validateLogin(String email, String password) {
+		EmployeeModel employee = new EmployeeModel();
+		employee.setEmail(email);
+		employee.setPassword(password);
+		try {
+			Integer roleId = employee.validateLogin();
+			if(roleId != 0) {
+				MainFormView.roleId = roleId;
+				MainFormView.loginState = true;
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
 	}
 }

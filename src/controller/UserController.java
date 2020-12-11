@@ -2,6 +2,9 @@ package controller;
 
 import core.view.View;
 import model.UserModel;
+import view.LoginView;
+import view.MainFormView;
+import view.RegistrationView;
 
 public class UserController {
 
@@ -22,8 +25,12 @@ public class UserController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public View view(View target) {
-		return target;
+	public View viewRegistrationForm() {
+		return new RegistrationView();
+	}
+	
+	public View viewLogin() {
+		return new LoginView();
 	}
 	
 	public boolean createAccount(String name, String address, String email, String phoneNumber, String password) {
@@ -61,5 +68,18 @@ public class UserController {
 	public UserModel getOne(Integer userId) {
 		UserModel user = new UserModel();
 		return user.getOne(userId);
+	}
+	
+	public boolean validateLogin(String email, String password) {
+		UserModel user = new UserModel();
+		user.setEmail(email);
+		user.setPassword(password);
+		Integer roleId = user.validateLogin();
+		if(roleId != 0) {
+			MainFormView.roleId = roleId;
+			MainFormView.loginState = true;
+			return true;
+		}
+		return false;
 	}
 }
