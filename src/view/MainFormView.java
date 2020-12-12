@@ -261,7 +261,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,5,roleId);
+				historyFrame = new HistoryOrderView(desktop,userID,roleId);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
@@ -273,7 +273,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				takenOrderFrame = new TakenOrderView(desktop, 5);
+				takenOrderFrame = new TakenOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(takenOrderFrame);
 			}
@@ -285,7 +285,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				availableOrderFrame = new AvailableOrderView(desktop);
+				availableOrderFrame = new AvailableOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(availableOrderFrame);
 			}
