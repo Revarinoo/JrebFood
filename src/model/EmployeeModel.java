@@ -162,7 +162,6 @@ public class EmployeeModel {
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		try {
@@ -171,7 +170,7 @@ public class EmployeeModel {
 				id = rs.getInt("employeeId");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return roleId;
 	}
