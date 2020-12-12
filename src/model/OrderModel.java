@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import connect.Connect;
@@ -63,8 +64,7 @@ public class OrderModel {
 	}
 	
 	public boolean updateStatus(Integer orderId, String status) {
-		
-		
+			
 		String query = String.format("UPDATE %s SET orderStatus=? WHERE orderId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -76,10 +76,7 @@ public class OrderModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
-		
+		}	
 		return true;
 	}
 	
@@ -384,5 +381,49 @@ public class OrderModel {
 				e.printStackTrace();
 				return false;
 			}
+	}
+	
+	public boolean addOrder(UserModel user,Date date) {
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");		
+		String query = String.format("INSERT INTO %s VALUES (null,?,?,?,null,?)", tableName) ;
+		PreparedStatement ps = con.prepareStatement(query);	
+		
+		try {
+			ps.setDate(1, date);
+			ps.setString(2, user.getAddress());
+			ps.setInt(3, user.getUserId());
+			ps.setString(4, "not accepted");
+			return ps.executeUpdate()==1;		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public Vector<OrderModel> getUserActiveOrder(Integer userId) {
+		Vector<OrderModel> activeOrderList = new Vector<OrderModel>();
+		String query = String.format("SELECT * FROM %s WHERE userId=%s",tableName,userId.toString());
+		ResultSet rs = con.executeQuery(query);
+		
+		try {
+			while(rs.next()) {
+				Integer orderId = rs.getInt("orderId");
+				String address = rs.getString("address");
+				Date orderDate = rs.getDate("orderDate");
+				String orderStatus = rs.getString("orderStatus");
+				
+				OrderModel temp = new OrderModel();
+				temp.setOrderId(orderId);
+				temp.setAddress(address);
+				temp.setDate(orderDate);
+				temp.setStatus(orderStatus);
+				
+				activeOrderList.add(temp);
+			}
+			return activeOrderList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
