@@ -180,7 +180,7 @@ public class FoodMenuView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer userId=2; 
+				Integer userId=MainFormView.userID; 
 				Integer qty = (Integer) quantitySpn.getValue();
 				boolean addToCart = CartController.getInstance().addToCart(userId,foodId,qty);
 				if(addToCart) {
