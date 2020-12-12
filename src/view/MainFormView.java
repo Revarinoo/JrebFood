@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import controller.CartController;
 import controller.EmployeeController;
 import controller.FoodController;
 import controller.OrderController;
@@ -161,7 +162,7 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				foodMenuIF = FoodController.getInstance().viewMenu();
+				foodMenuIF = (FoodMenuView) FoodController.getInstance().viewMenu();
 				desktop.removeAll();
 				desktop.add(foodMenuIF);
 			}
@@ -172,7 +173,7 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				cartIF = new CartView();
+				cartIF = (CartView) CartController.getInstance().viewManageCartForm();
 				desktop.removeAll();
 				desktop.add(cartIF);
 			}

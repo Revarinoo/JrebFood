@@ -65,7 +65,6 @@ public class FoodController {
 	}
 
 	public View viewManageFoodForm(View target) {
-		// TODO Auto-generated method stub
 		return target;
 	}
 
@@ -74,8 +73,17 @@ public class FoodController {
 		return food.viewAll();
 	}
 	
-	public FoodMenuView viewMenu() {
+	public View viewMenu() {
 		return new FoodMenuView();
 	}
 
+	public FoodModel getFood(Integer foodId) {
+		FoodModel food = new FoodModel();
+		return food.getFood(foodId);
+	}
+	
+	public boolean checkStatus(FoodModel food) {
+		if(food.getStatus().equals("unavailable"))return false;
+		return true;
+	}
 }

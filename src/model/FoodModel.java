@@ -51,8 +51,8 @@ public class FoodModel {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	public FoodModel() {
-		// TODO Auto-generated constructor stub
 		this.tableName = "foods";
 	}
 	
@@ -65,18 +65,13 @@ public class FoodModel {
 			ps.setString(1, name);
 			ps.setInt(2, price);
 			ps.setString(3,description);
-			ps.setString(4, "Available");
+			ps.setString(4, "available");
 			
-			ps.executeUpdate();
-			
-			
+			ps.executeUpdate();			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			
-		}
-		
+			e.printStackTrace();
+		}	
 		return true;
-
 	}
 
 	public boolean changeStatus(Integer id, String status) {
@@ -95,12 +90,8 @@ public class FoodModel {
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
-		
+		}	
 		return true;
 	}
 
@@ -109,21 +100,16 @@ public class FoodModel {
 		PreparedStatement ps = con.prepareStatement(query);
 		
 		try {
-//			ps.setInt(1, foodId);
-		
+//			ps.setInt(1, foodId);	
 			ps.executeUpdate();
 			
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return false;
-		}
-		
-		
+		}	
 	}
 
 	public Vector<FoodModel> viewAll() {
-		// TODO Auto-generated method stub
 		Vector<FoodModel> foods = new Vector<>();
 		
 		String query = String.format("SELECT * FROM %s", tableName);
@@ -151,6 +137,17 @@ public class FoodModel {
 			e.printStackTrace();
 		}	
 		return null;
+	}
+	
+	public FoodModel getFood(Integer foodId) {
+		Vector<FoodModel> foods = viewAll();
+		
+		for (FoodModel food : foods) {
+			if(food.getFoodId()==foodId) {
+				return food;
+			}
+		}
+		return null; 
 	}
 
 }

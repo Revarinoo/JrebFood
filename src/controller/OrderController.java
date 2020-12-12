@@ -1,18 +1,26 @@
 package controller;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 import core.view.View;
+import model.CartModel;
 import model.OrderDetailModel;
 import model.OrderModel;
+import model.UserModel;
+import view.CartView;
 import view.FinancialSummaryView;
 import view.UserOrderView;
 
 public class OrderController {
 
 	private static OrderController instance;
+	private String errorMsg;
 	
 	public static OrderController getInstance() {
 		if(instance == null) {
@@ -26,10 +34,12 @@ public class OrderController {
 	}
 	
 	private OrderController() {
-		// TODO Auto-generated constructor stub
+		this.errorMsg="";
 	}
 	
-
+	public String getErrorMsg() {
+		return errorMsg;
+	}
 //	public void updateStatus(Integer orderId, String status) {
 //		OrderModel order = new OrderModel();
 //		order.setOrderId(orderId);
@@ -146,5 +156,40 @@ public class OrderController {
 		}
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public boolean addOrder(UserModel user,Date date) {
+		Vector<CartModel> carts = CartController.getInstance().viewAll(user.getUserId());
+		OrderModel order = new OrderModel();
+		
+		if(carts.size()==0) {
+			errorMsg="Cart is Empty, please add some food";
+			return false;
+		}
+		boolean orderStatus = order.addOrder(user, date);
+		if(!orderStatus) {
+			errorMsg="Order Checkout Failed";
+			return false;
+		}
+		return orderStatus;
+	}
+	
+	public OrderModel getNewInsertedOrder(Integer userId) {
+		OrderModel temp = new OrderModel();
+		Vector<OrderModel> orders =  temp.getUserActiveOrder(userId);
+
+		OrderModel newOrder = new OrderModel();
+	
+		for(int x=0;x<orders.size();x++) {
+			if(x==(orders.size()-1)) {
+				newOrder = orders.get(x);
+			}
+		}	
+		return newOrder;
+	}
+	
+	public void addOrderDetail(Integer orderId,Integer foodId,Integer qty) {
+		OrderDetailModel orderDetail = new OrderDetailModel();
+		orderDetail.addOrderDetail(orderId,foodId, qty);
 	}
 }
