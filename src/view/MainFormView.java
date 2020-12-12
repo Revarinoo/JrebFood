@@ -9,7 +9,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
 
 import controller.CartController;
 import controller.EmployeeController;
@@ -37,7 +36,7 @@ public class MainFormView extends MainView{
 	public static Integer roleId = 0;
 	public static boolean loginState = false;
 	public static Integer userID = null; // id user atau employee yg login 
-	private boolean logoutState = false;
+	public static  boolean logoutState = false;
 	
 	UserOrderView userOrderFrame;
 	ManageFoodView chefFoodListFrame;
@@ -138,10 +137,25 @@ public class MainFormView extends MainView{
 					break;
 			}
 			logoutMI.setVisible(true);
+		}else if(logoutState==true){
+			registerMI.setVisible(true);
+			loginMI.setVisible(true);
+			logoutMI.setVisible(false);
+			logoutState=false;
+			loginState = false;
+			
+			switch (roleId) {
+			case 1:	managerMenu.setVisible(false); break;
+
+			case 2: chefMenu.setVisible(false); break;
+			case 3: driverMenu.setVisible(false); break;
+			case 4: transactionMenu.setVisible(false);
+					shopMenu.setVisible(false);
+					break;
+			}
+			userID=null;
+			roleId=0;
 		}
-//		else if(){
-//			
-//		}
 		
 	}
 
@@ -168,7 +182,6 @@ public class MainFormView extends MainView{
 				updateMenuBar();
 			}
 		});
-//		cartMI.addActionListener();
 		
 		registerMI.addActionListener(new ActionListener() {
 			
@@ -194,8 +207,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
 				desktop.removeAll();
-				desktop.add(OrderController.getInstance().viewOrders(desktop, userID));
-				
+				desktop.add(OrderController.getInstance().viewOrders(desktop, userID));		
 			}
 		});
 		
@@ -254,6 +266,7 @@ public class MainFormView extends MainView{
 				desktop.add(orderListChefFrame);
 			}
 		});
+		
 		if(roleId == 1) driverMenu.setVisible(false);
 		historyOrderMI.addActionListener(new ActionListener() {
 			
@@ -261,7 +274,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,5,roleId);
+				historyFrame = new HistoryOrderView(desktop,userID,roleId);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
@@ -273,7 +286,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				takenOrderFrame = new TakenOrderView(desktop, 5);
+				takenOrderFrame = new TakenOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(takenOrderFrame);
 			}
@@ -285,7 +298,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				availableOrderFrame = new AvailableOrderView(desktop);
+				availableOrderFrame = new AvailableOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(availableOrderFrame);
 			}

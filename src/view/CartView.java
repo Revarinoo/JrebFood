@@ -15,11 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-//import javax.xml.bind.ParseConversionEvent;
 
 import controller.CartController;
 import controller.FoodController;
@@ -40,8 +38,7 @@ public class CartView extends View{
 	JButton removeFromCartBtn,orderBtn;
 	JTable cartTableData;
 	DefaultTableModel cartDtm;
-	//private Integer userId = 0;
-	// nanti constructor terima userId(customer)
+	
 	public CartView() {
 		super("Cart");
 		this.width=600;
@@ -99,7 +96,7 @@ public class CartView extends View{
 		header.add("Sub Price");
 		cartDtm = new DefaultTableModel(header,0);
 		
-		Integer userId = 2;// nanti parameter diganti userId(customer) 
+		Integer userId =MainFormView.userID;
 		Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
 		
 		for (CartModel cart : carts) {
@@ -154,7 +151,7 @@ public class CartView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer userId=2; // nanti disesuaikan sama userId(cusotmer);
+				Integer userId=MainFormView.userID;
 				
 				Integer foodId = Integer.parseInt(cartFoodIdTf.getText());
 				int deleteConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Are you sure to delete these food from your cart?","Confirmation", JOptionPane.WARNING_MESSAGE);
@@ -175,7 +172,7 @@ public class CartView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer userId=1; // nanti disesuaikan sama userId(cusotmer);
+				Integer userId=MainFormView.userID;
 				UserModel user = UserController.getInstance().getOne(userId);
 				Date date = java.sql.Date.valueOf(java.time.LocalDate.now());
 				

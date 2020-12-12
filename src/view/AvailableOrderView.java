@@ -34,13 +34,14 @@ public class AvailableOrderView extends View {
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
 	Vector<OrderModel> listOrder;
-	
-	public AvailableOrderView(JDesktopPane desktop) {
+	Integer driverId;
+	public AvailableOrderView(JDesktopPane desktop, Integer driverId) {
 		super("Available Order");
 		// TODO Auto-generated constructor stub
 		this.width=600;
 		this.height=600; 
 		this.desktop = desktop;
+		this.driverId = driverId;
 		loadData();
 		super.showForm();
 	}
@@ -183,7 +184,7 @@ public class AvailableOrderView extends View {
 						Integer orderId = Integer.parseInt(chooseTxt.getText());
 						
 						OrderController temp = OrderController.getInstance();
-						temp.takeOrder(orderId, 5);
+						temp.takeOrder(orderId, driverId);
 						
 						OrderModel orderTemp = temp.getOne(orderId);
 						
