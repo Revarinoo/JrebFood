@@ -115,12 +115,15 @@ public class OrderController {
 	
 	public boolean validateStatus(OrderModel order, String status) {
 		if(status.equals("finished")) {
-			if(order.getStatus().equals("ready")) {
+			if(order.getStatus().equals("cooked")) {
 				return true;
 			}
 			return false;
 		}else if(status.equals("ordered")){
-			return true;
+			if(order.getStatus().equals("accepted")) {
+				return true;
+			}
+			return false;
 		}else {
 			return false;
 		}

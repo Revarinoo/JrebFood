@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 import controller.CartController;
 import controller.EmployeeController;
@@ -21,9 +22,9 @@ public class MainFormView extends MainView{
 
 	JMenuBar mainMenuBar;
 
-	JMenu userMenu,transactionMenu,shopMenu, chefMenu, managerMenu, driverMenu;
+	public static JMenu userMenu,transactionMenu,shopMenu, chefMenu, managerMenu, driverMenu;
 	JSeparator menuSeparator;
-    JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI, historyOrderMI, takenOrderMi,availableOrderMI,userinfoMI;
+	public static JMenuItem loginMI, registerMI, logoutMI,exitMI,orderMI,historyMI,foodMI,cartMI, chefAddFoodMI, chefFoodListMI, chefOrderListMI, manageEmployeeMI, financialMI, historyOrderMI, takenOrderMi,availableOrderMI;
 
 	JDesktopPane desktop = new JDesktopPane();
 
@@ -32,8 +33,11 @@ public class MainFormView extends MainView{
 	FoodMenuView foodMenuIF;
 	FinancialSummaryView financialFrame;
 	CartView cartIF;
+	
+	public static Integer roleId = 0;
 	public static boolean loginState = false;
-//	public static boolean logoutState = true;
+	public static Integer userID = null; // id user atau employee yg login 
+	private boolean logoutState = false;
 	
 	UserOrderView userOrderFrame;
 	ChefAddFoodView chefAddFoodFrame;
@@ -42,9 +46,9 @@ public class MainFormView extends MainView{
 	HistoryOrderView historyFrame;
 	TakenOrderView takenOrderFrame;
 	AvailableOrderView availableOrderFrame;
-	UserInformationView userInfoFrame;
 	public MainFormView() {
 		super();
+		
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class MainFormView extends MainView{
 		historyOrderMI = new JMenuItem("History Order");
 		takenOrderMi = new JMenuItem("Taken Order List");
 		availableOrderMI = new JMenuItem("Available Order");
-		userinfoMI = new JMenuItem("User Info");
+		updateMenuBar();
 	}
 
 	@Override
@@ -90,40 +94,83 @@ public class MainFormView extends MainView{
 		userMenu.add(logoutMI);
 		userMenu.add(menuSeparator);
 		userMenu.add(exitMI);
+		logoutMI.setVisible(false);
 		
 		mainMenuBar.add(transactionMenu);
 		transactionMenu.add(orderMI);
-		
+		transactionMenu.setVisible(false);
 		
 		mainMenuBar.add(shopMenu);
 		shopMenu.add(foodMI);
 		shopMenu.add(cartMI);
-		
+		shopMenu.setVisible(false);
 
 		mainMenuBar.add(chefMenu);
 		chefMenu.add(chefAddFoodMI);
 		chefMenu.add(chefFoodListMI);
 		chefMenu.add(chefOrderListMI);
-		
+		chefMenu.setVisible(false);
 	
 		mainMenuBar.add(managerMenu);
 		managerMenu.add(manageEmployeeMI);
 		managerMenu.add(financialMI);
+		managerMenu.setVisible(false);
 		
 		mainMenuBar.add(driverMenu);
 		driverMenu.add(historyOrderMI);
 		driverMenu.add(takenOrderMi);
 		driverMenu.add(availableOrderMI);
-		driverMenu.add(userinfoMI);
+		driverMenu.setVisible(false);
 		
 		add(mainMenuBar,BorderLayout.NORTH);
+		
+	}
+	
+	public static void updateMenuBar() {		
+		
+		if(loginState==true) {
+			registerMI.setVisible(false);
+			loginMI.setVisible(false);
+			switch (roleId) {
+			case 1:	managerMenu.setVisible(true); break;
+
+			case 2: chefMenu.setVisible(true); break;
+			case 3: driverMenu.setVisible(true); break;
+			case 4: transactionMenu.setVisible(true);
+					shopMenu.setVisible(true);
+					break;
+			}
+			logoutMI.setVisible(true);
+		}
+//		else if(){
+//			
+//		}
+		
 	}
 
 	@Override
 	public void addListener() {
 		// TODO Auto-generated method stub
-//		loginMI.addActionListener();
-//		logoutMI.addActionListener();
+		loginMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				add(desktop, BorderLayout.CENTER);
+				desktop.removeAll();
+				desktop.add(UserController.getInstance().viewLogin());
+			}
+		});
+		
+		logoutMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginState = false;
+				logoutState = true;
+				desktop.removeAll();
+				updateMenuBar();
+			}
+		});
 //		cartMI.addActionListener();
 		
 		registerMI.addActionListener(new ActionListener() {
@@ -131,10 +178,8 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop, BorderLayout.CENTER);
-				registrationFrame = new RegistrationView();
-				UserController.getInstance().view(registrationFrame);
 				desktop.removeAll();
-				desktop.add(registrationFrame);
+				desktop.add(UserController.getInstance().viewRegistrationForm());
 			}
 		});
 		
@@ -225,14 +270,14 @@ public class MainFormView extends MainView{
 				desktop.add(orderListChefFrame);
 			}
 		});
-		
+		if(roleId == 1) driverMenu.setVisible(false);
 		historyOrderMI.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,1,null);
+				historyFrame = new HistoryOrderView(desktop,5,roleId);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
@@ -262,18 +307,6 @@ public class MainFormView extends MainView{
 			}
 		});
 		
-		userinfoMI.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				add(desktop,BorderLayout.CENTER);
-				userInfoFrame = new UserInformationView(desktop,1);
-				desktop.removeAll();
-				desktop.add(userInfoFrame);
-			}
-		});
-		
 		financialMI.addActionListener(new ActionListener() {
 			
 			@Override
@@ -284,5 +317,7 @@ public class MainFormView extends MainView{
 			}
 		});
 	}
+	
+	
 
 }

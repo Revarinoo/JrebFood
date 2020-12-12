@@ -8,8 +8,8 @@ import connect.Connect;
 
 public class UserModel {
 
-	protected String tableName;
-	protected Connect con = Connect.getConnection();
+	protected String tableName="users";
+	private Connect con = Connect.getConnection();
 	
 	private Integer userId;
 	private String name;
@@ -55,7 +55,6 @@ public class UserModel {
 	}
 	
 	public boolean createAccount() {
-		tableName = "users";
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -74,7 +73,7 @@ public class UserModel {
 	}
 	
 	public UserModel getOne(Integer userId) {
-		String query = String.format("SELECT * from %s where userId=?", "users");
+		String query = String.format("SELECT * from %s where userId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		try {
@@ -106,5 +105,29 @@ public class UserModel {
 		return null;
 	}
 
+	public Integer validateLogin() {
+		Integer roleId = 0;
+		String query = String.format("SELECT * FROM %s WHERE userEmail=? AND userPassword=?",tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = null;
+		
+		try {
+			ps.setString(1, email);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(rs.next()) {
+				roleId = 4; //user
+				userId = rs.getInt("userId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return roleId;
+	}
 	
 }

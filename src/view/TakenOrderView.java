@@ -26,7 +26,7 @@ public class TakenOrderView extends View{
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
 	JLabel titleLabel,chooseLabel;
-	JButton btnOrder,btnDeliver;
+	JButton btnOrder,btnDeliver, btnDetail;
 	JTable tableOrder;
 	JScrollPane sp;
 	JTextField chooseTxt;
@@ -34,7 +34,7 @@ public class TakenOrderView extends View{
 	Vector<String> header,detailOrder;
 	JDesktopPane desktop;
 	Integer driverId;
-	Vector<OrderModel> listOrder;
+
 	
 	
 	public TakenOrderView(JDesktopPane desktop, Integer driverId) {
@@ -50,9 +50,8 @@ public class TakenOrderView extends View{
 
 	private void loadData() {
 		// TODO Auto-generated method stub
-		header.add("Order ID");
-		header.add("Order Date");
-		header.add("Address");
+		dataOrder = new Vector<>();
+		Vector<OrderModel> listOrder;
 		listOrder = OrderController.getInstance().viewTakenOrder(driverId);
 		if(listOrder.size() == 0) {
 			bottom.setVisible(false);
@@ -63,6 +62,7 @@ public class TakenOrderView extends View{
 			detailOrder.add(order.getOrderId().toString());
 			detailOrder.add(order.getDate().toString());
 			detailOrder.add(order.getAddress().toString());
+			detailOrder.add(order.getStatus());
 			dataOrder.add(detailOrder);
 		}
 		DefaultTableModel dtm = new DefaultTableModel(dataOrder, header) {
@@ -94,16 +94,21 @@ public class TakenOrderView extends View{
 		
 		dataOrder = new Vector<>();
 		header = new Vector<>();
-		
+		header.add("Order ID");
+		header.add("Order Date");
+		header.add("Address");
+		header.add("Order Status");
 		//Bottom
 		//Bottom1
 		chooseTxt = new JTextField();
+		chooseTxt.setEditable(false);
 		bottom1 = new JPanel();
 		choosePanel= new JPanel(new GridLayout(1,2));
 		chooseLabel = new JLabel("Choosen Order");
 		
 		//Bottom2
 		bottom2 = new JPanel();
+		btnDetail = new JButton("Detail");
 		btnOrder = new JButton("Order");
 		btnDeliver = new JButton("Deliver");
 	}
@@ -126,6 +131,7 @@ public class TakenOrderView extends View{
 		bottom1.add(choosePanel);
 		
 		//Bottom2
+		bottom2.add(btnDetail);
 		bottom2.add(btnOrder);
 		bottom2.add(btnDeliver);
 		bottom.add(bottom1);
@@ -179,8 +185,18 @@ public class TakenOrderView extends View{
 				// TODO Auto-generated method stub
 				if(chooseTxt.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
-				}else {					
+				}else {
 					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to order to restarutant?", "Confirmation",JOptionPane.YES_NO_OPTION);
+					int orderId = Integer.parseInt(chooseTxt.getText());
+					if(confirm == 0) {
+						boolean flag = OrderController.getInstance().updateStatus(orderId, "ordered");
+						if(flag == false) {
+							JOptionPane.showMessageDialog(null, "Order Error","Error Message", JOptionPane.ERROR_MESSAGE);
+						}else {
+							loadData();
+							JOptionPane.showMessageDialog(null,"Order Success");
+						}
+					}
 				}
 			}
 		});
@@ -194,6 +210,30 @@ public class TakenOrderView extends View{
 					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
 				}else {					
 					int confirm = JOptionPane.showConfirmDialog(null,"Do you want to deliver order?", "Confirmation",JOptionPane.YES_NO_OPTION);
+					int orderId = Integer.parseInt(chooseTxt.getText());
+					if(confirm == 0) {
+						boolean flag = OrderController.getInstance().updateStatus(orderId, "finished");
+						if(flag == false) {
+							JOptionPane.showMessageDialog(null, "Deliver Error","Error Message", JOptionPane.ERROR_MESSAGE);
+						}else {
+							loadData();
+							JOptionPane.showMessageDialog(null,"Deliver Success");
+						}
+					}
+				}
+			}
+		});
+		btnDetail.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(chooseTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {					
+					int row = Integer.parseInt(chooseTxt.getText());
+					desktop.add(new DetailsOrderView(desktop, row));
+					dispose();	
 				}
 			}
 		});
