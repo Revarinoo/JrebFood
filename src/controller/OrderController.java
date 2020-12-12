@@ -188,6 +188,7 @@ public class OrderController {
 			return false;
 		}
 		return true;
+	}
 	
 	public boolean addOrder(UserModel user,Date date) {
 		Vector<CartModel> carts = CartController.getInstance().viewAll(user.getUserId());

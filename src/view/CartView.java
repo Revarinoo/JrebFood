@@ -19,7 +19,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.bind.ParseConversionEvent;
+//import javax.xml.bind.ParseConversionEvent;
 
 import controller.CartController;
 import controller.FoodController;
@@ -175,7 +175,7 @@ public class CartView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer userId=2; // nanti disesuaikan sama userId(cusotmer);
+				Integer userId=1; // nanti disesuaikan sama userId(cusotmer);
 				UserModel user = UserController.getInstance().getOne(userId);
 				Date date = java.sql.Date.valueOf(java.time.LocalDate.now());
 				
