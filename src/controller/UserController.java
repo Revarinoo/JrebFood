@@ -78,6 +78,7 @@ public class UserController {
 		if(roleId != 0) {
 			MainFormView.roleId = roleId;
 			MainFormView.loginState = true;
+			MainFormView.userID = user.getUserId();
 			return true;
 		}
 		return false;

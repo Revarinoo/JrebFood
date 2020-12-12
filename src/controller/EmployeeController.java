@@ -85,6 +85,7 @@ public class EmployeeController {
 			if(roleId != 0) {
 				MainFormView.roleId = roleId;
 				MainFormView.loginState = true;
+				MainFormView.userID = employee.getId();
 				return true;
 			}
 		} catch (Exception e) {

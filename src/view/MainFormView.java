@@ -35,6 +35,7 @@ public class MainFormView extends MainView{
 	
 	public static Integer roleId = 0;
 	public static boolean loginState = false;
+	public static Integer userID = null; // id user atau employee yg login 
 	private boolean logoutState = false;
 	
 	UserOrderView userOrderFrame;

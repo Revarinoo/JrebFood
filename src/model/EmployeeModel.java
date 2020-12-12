@@ -153,7 +153,7 @@ public class EmployeeModel {
 	}
 	
 	public Integer validateLogin() {
-		String query = String.format("SELECT roleId FROM %s WHERE employeeEmail=? AND employeePassword=?",tableName);
+		String query = String.format("SELECT * FROM %s WHERE employeeEmail=? AND employeePassword=?",tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = null;
 		
@@ -168,6 +168,7 @@ public class EmployeeModel {
 		try {
 			while(rs.next()) {
 				roleId = rs.getInt("roleId");
+				id = rs.getInt("employeeId");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

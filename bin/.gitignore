@@ -8,3 +8,6 @@
 # /view/
 # /core/
 # /view/
+/view/
+/controller/
+/model/
