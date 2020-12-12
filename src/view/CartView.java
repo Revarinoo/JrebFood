@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +33,8 @@ import model.UserModel;
 
 public class CartView extends View{
 
-	JPanel mainPanel,northPanel,centerPanel,southPanel,modifyCartPanel;
+	private static final int RIGHT = 0;
+	JPanel mainPanel,northPanel,centerPanel,southPanel,modifyCartPanel,cartFoodIdPnl,cartFoodIdTfPnl;
 	JLabel cartFoodIdLbl,cartFoodQtyLbl,cartTitleLbl;
 	JTextField cartFoodIdTf,cartQtyTf;
 	JButton removeFromCartBtn,orderBtn;
@@ -53,13 +55,20 @@ public class CartView extends View{
 		northPanel = new JPanel(); 
 		centerPanel = new JPanel(new GridLayout(2,1));
 		southPanel = new JPanel(); 
-		modifyCartPanel = new JPanel(new GridLayout(1,2));
+		GridLayout grid= new GridLayout(1,2);
+		grid.setHgap(-300);
+		modifyCartPanel = new JPanel(grid);
 		
 		cartTitleLbl = new JLabel("Cart");
 		cartTableData = new JTable();
 		
+		cartFoodIdPnl=new JPanel();
+		cartFoodIdTfPnl = new JPanel();
+		
 		cartFoodIdLbl=new JLabel("Food Id");
-		cartFoodIdTf=new JTextField();
+		cartFoodIdLbl.setPreferredSize(new Dimension(50,30));
+		cartFoodIdTf=new JTextField("");
+		cartFoodIdTf.setPreferredSize(new Dimension(100,30));
 		cartFoodIdTf.setBackground(Color.white);
 		cartFoodIdTf.setEditable(false); 
 	
@@ -71,12 +80,15 @@ public class CartView extends View{
 	public void addComponent() {
 		northPanel.add(cartTitleLbl);
 		
+		cartFoodIdPnl.add(cartFoodIdLbl);
+		cartFoodIdTfPnl.add(cartFoodIdTf);
+		
+		modifyCartPanel.add(cartFoodIdPnl);
+		modifyCartPanel.add(cartFoodIdTfPnl);
+		
 		viewManageCartForm();
 		centerPanel.add(new JScrollPane(cartTableData));
 		centerPanel.add(modifyCartPanel);
-		
-		modifyCartPanel.add(cartFoodIdLbl);
-		modifyCartPanel.add(cartFoodIdTf);
 		
 		southPanel.add(removeFromCartBtn);
 		southPanel.add(orderBtn);
@@ -153,18 +165,22 @@ public class CartView extends View{
 			public void actionPerformed(ActionEvent e) {
 				Integer userId=MainFormView.userID;
 				
-				Integer foodId = Integer.parseInt(cartFoodIdTf.getText());
-				int deleteConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Are you sure to delete these food from your cart?","Confirmation", JOptionPane.WARNING_MESSAGE);
-				
-				if(deleteConfirmation == JOptionPane.YES_OPTION) {
-					boolean removeFromCart = CartController.getInstance().removeFromCart(userId, foodId);
-					if(removeFromCart) {
-						JOptionPane.showMessageDialog(CartView.this, "Successfully Remove Food From Cart","Success", JOptionPane.PLAIN_MESSAGE);
-						viewManageCartForm();
-					}else {
-						JOptionPane.showMessageDialog(CartView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
-					}
-				}		
+				if(cartFoodIdTf.getText().equals("")) {
+					JOptionPane.showMessageDialog(CartView.this, "Please choose food from the cart","Error Message", JOptionPane.ERROR_MESSAGE);
+				}else {
+					Integer foodId = Integer.parseInt(cartFoodIdTf.getText());
+					int deleteConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Are you sure to delete these food from your cart?","Confirmation", JOptionPane.WARNING_MESSAGE);
+					
+					if(deleteConfirmation == JOptionPane.YES_OPTION) {
+						boolean removeFromCart = CartController.getInstance().removeFromCart(userId, foodId);
+						if(removeFromCart) {
+							JOptionPane.showMessageDialog(CartView.this, "Successfully Remove Food From Cart","Success", JOptionPane.PLAIN_MESSAGE);
+							viewManageCartForm();
+						}else {
+							JOptionPane.showMessageDialog(CartView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}	
+				}	
 			} 
 		});
 		
@@ -178,7 +194,7 @@ public class CartView extends View{
 				
 				Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
 			
-				int orderConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Proceed Order? ","Confirmation", JOptionPane.WARNING_MESSAGE);
+				int orderConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Proceed Order? ","Confirmation", JOptionPane.PLAIN_MESSAGE);
 				
 				if(orderConfirmation == JOptionPane.YES_OPTION) {
 					boolean orderStatus = OrderController.getInstance().addOrder(user, date);
@@ -189,11 +205,11 @@ public class CartView extends View{
 							OrderDetailModel orderDetail = new OrderDetailModel();
 							orderDetail.addOrderDetail(order.getOrderId(), cart.getFoodId(), cart.getQty());
 						}
-						JOptionPane.showMessageDialog(CartView.this, "Order Successful","Success", JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(CartView.this, "Checkout Order Successful","Success", JOptionPane.PLAIN_MESSAGE);
 						CartController.getInstance().removeAll(user.getUserId());
 						viewManageCartForm();
 					}else {
-						JOptionPane.showMessageDialog(CartView.this, OrderController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(CartView.this, OrderController.getInstance().getErrorMsg(),"Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
