@@ -275,7 +275,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,5,3);
+				historyFrame = new HistoryOrderView(desktop,5,roleId);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
