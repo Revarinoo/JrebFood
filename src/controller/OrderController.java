@@ -114,6 +114,11 @@ public class OrderController {
 				return true;
 			}
 			return false;
+		}else if(status.equals("cooked")) {
+			if(order.getStatus().equals("ordered")) {
+				return true;
+			}
+			return false;
 		}else {
 			return false;
 		}
