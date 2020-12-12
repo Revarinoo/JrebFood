@@ -104,7 +104,19 @@ public class OrderController {
 	}
 	
 	public boolean validateStatus(OrderModel order, String status) {
-		if(status.equals("finished")) {
+		
+		//buat validasi user, kalo dia ga bisa cancel order yang udah 'accepted'
+
+			
+		
+		if (status.equals("cooked")) {
+			if(order.getStatus().equals("ordered")) {
+				return true;
+			}
+			
+			return false;
+		}
+		else if(status.equals("finished")) {
 			if(order.getStatus().equals("cooked")) {
 				return true;
 			}
@@ -134,7 +146,17 @@ public class OrderController {
 		return od.totalFinishedTransaction();
 	}
 
-	public boolean deleteOrder(Integer orderId) {
+	public boolean removeOrder(Integer orderId) {
+		
+		OrderModel temp = getOne(orderId);
+		String status = temp.getStatus();
+		
+		System.out.println(status);
+		
+		boolean flag = validateOrderedStatus(status);
+		
+		if (flag == false) return false;
+
 		
 		OrderDetailModel orderDetail = new OrderDetailModel();
 		orderDetail.setOrderId(orderId);
@@ -148,6 +170,14 @@ public class OrderController {
 			return false;
 		}
 		// TODO Auto-generated method stub
+		return true;
+	}
+
+	private boolean validateOrderedStatus(String status) {
+		if (status.equals("accepted") || status.equals("ordered") || status.equals("cooked")) {
+			System.out.println("SEKIIIIP");
+			return false;
+		}
 		return true;
 	}
 }

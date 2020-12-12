@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import controller.FoodController;
 import controller.OrderController;
 import core.view.View;
 import model.OrderModel;
@@ -152,20 +153,32 @@ public class ChefOrderListView extends View{
 		changeStatusBtn.addActionListener(new ActionListener() {
 			
 			// Testing doang. Nanti tunggu kepastian aslab ganti nya jadi apa
-			String statusFinished = "cooked";
+			String statusCooked = "cooked";
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				OrderController.getInstance().updateStatus(orderId, statusFinished);
 				
-				JOptionPane.showMessageDialog(ChefOrderListView.this,
-						"Order ID : "+orderId+
-						"\nDriver ID : "+driverId+
-						"\n\nUpdate Status Complete"
+				if (!OrderController.getInstance().updateStatus(orderId, statusCooked)) {
+				
+							JOptionPane.showMessageDialog(null, 
+									"Wrong Update Data",
+									"Error Message", 
+									JOptionPane.ERROR_MESSAGE);
+					 
+				}
+				else {
+					JOptionPane.showMessageDialog(ChefOrderListView.this,
+							"Order ID : "+orderId+
+							"\nDriver ID : "+driverId+
+							"\n\nUpdate Status Complete"
+						
+					);
 					
-				);
+					loadData();
+				}
 				
-				loadData();
+				
+
 			}
 
 		});

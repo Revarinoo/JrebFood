@@ -65,7 +65,7 @@ public class FoodModel {
 			ps.setString(1, name);
 			ps.setInt(2, price);
 			ps.setString(3,description);
-			ps.setString(4, "Available");
+			ps.setString(4, "available");
 			
 			ps.executeUpdate();
 			
