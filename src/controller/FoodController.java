@@ -6,6 +6,7 @@ import java.util.Vector;
 import core.view.View;
 import model.FoodModel;
 import model.FoodModel;
+import view.ManageFoodView;
 import view.FoodMenuView;
 
 
@@ -27,16 +28,31 @@ public class FoodController {
 	private FoodController() {
 	}
 
-	public void addFood(String name, String desc, Integer price) {
+	public boolean addFood(String name, String desc, Integer price) {
 		FoodModel food = new FoodModel();
+		
+		if (!validateInput(name, desc, price)) {
+			return false;
+		}
+		
 		food.setName(name);
 		food.setDescription(desc);
 		food.setPrice(price);
 		
+
+		if(!food.addFood(name, desc, price)) return false;
 		
-		food.addFood(name, desc, price);
+		return true;
 	}
 	
+	private boolean validateInput(String name, String desc, Integer price) {
+		
+		if(name.isEmpty() || desc.isEmpty() || (price == 0 || price == null || price % 1 != 0)) {
+			return false;
+		}
+		return true;
+	}
+
 	public boolean deleteFood(Integer id) {
 		
 		FoodModel food = new FoodModel();
@@ -64,9 +80,9 @@ public class FoodController {
 		
 	}
 
-	public View viewManageFoodForm(View target) {
+	public View viewManageFoodForm() {
 		// TODO Auto-generated method stub
-		return target;
+		return new ManageFoodView();
 	}
 
 	public Vector<FoodModel> viewAll() {
@@ -74,8 +90,17 @@ public class FoodController {
 		return food.viewAll();
 	}
 	
-	public FoodMenuView viewMenu() {
+	public View viewMenu() {
 		return new FoodMenuView();
 	}
 
+	public FoodModel getFood(Integer foodId) {
+		FoodModel food = new FoodModel();
+		return food.getFood(foodId);
+	}
+	
+	public boolean checkStatus(FoodModel food) {
+		if(food.getStatus().equals("unavailable"))return false;
+		return true;
+	}
 }

@@ -5,8 +5,7 @@ public class Main {
 
 	public Main() {
 		MainFormView mf = new MainFormView();
-		mf.showForm();
-			
+		mf.showForm();		
 	}
 
 	public static void main(String[] args) {

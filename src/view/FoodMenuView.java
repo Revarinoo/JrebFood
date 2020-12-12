@@ -20,8 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import controller.CartController;
 import controller.FoodController;
 import core.view.View;
+import model.CartModel;
 import model.FoodModel;
 
 public class FoodMenuView extends View{
@@ -29,13 +31,13 @@ public class FoodMenuView extends View{
 	JPanel mainPanel,northPanel,centerPanel,southPanel,addFoodDataToCartPanel;
 	JPanel nameLblPan,nameTfPan,priceLblPan,priceTfPan,quantityLblPan,quantitySpnPan;
 	JLabel foodMenuLbl,nameLbl,priceLbl,quantityLbl;
-	JTextField nameTf,priceTf,quantityTf;
+	JTextField nameTf,priceTf;
 	JSpinner quantitySpn;
 	JButton addToCartBtn;
 	JTable foodTableData;
 	DefaultTableModel foodDtm;
 	JScrollPane foodTableScrollPane;
-	String foodId;
+	private Integer foodId;
 	
 	public FoodMenuView() {
 		super("Food Menu");
@@ -150,7 +152,7 @@ public class FoodMenuView extends View{
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				foodId=foodTableData.getValueAt(foodTableData.getSelectedRow(),0).toString();
+				foodId=Integer.parseInt(foodTableData.getValueAt(foodTableData.getSelectedRow(),0).toString());
 				nameTf.setText(foodTableData.getValueAt(foodTableData.getSelectedRow(),1).toString());
 				priceTf.setText(foodTableData.getValueAt(foodTableData.getSelectedRow(),2).toString());
 			}
@@ -178,19 +180,14 @@ public class FoodMenuView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if((int)quantitySpn.getValue() == 0) {
-					JOptionPane.showMessageDialog(FoodMenuView.this, "Order Quantity at least 1","Alert", JOptionPane.WARNING_MESSAGE);
-					return;
+				Integer userId=2; 
+				Integer qty = (Integer) quantitySpn.getValue();
+				boolean addToCart = CartController.getInstance().addToCart(userId,foodId,qty);
+				if(addToCart) {
+					JOptionPane.showMessageDialog(FoodMenuView.this, "Successfully Add Food to Cart","Success", JOptionPane.PLAIN_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(FoodMenuView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
 				}
-				
-				// logic add to cart
-				String addToCart = "Add to Cart Success,\n"
-						+ "Food Id: " + foodId +"\n"
-						+ "Food Name: " + nameTf.getText() +"\n"
-						+ "Price: Rp. " +  Integer.parseInt(priceTf.getText()) +"\n"
-						+ "Quantity: " + (int)quantitySpn.getValue()  +"\n";
-
-				JOptionPane.showMessageDialog(FoodMenuView.this, addToCart,"Success", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 	}

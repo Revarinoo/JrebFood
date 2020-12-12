@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
+import controller.CartController;
 import controller.EmployeeController;
 import controller.FoodController;
 import controller.OrderController;
@@ -35,11 +36,11 @@ public class MainFormView extends MainView{
 	
 	public static Integer roleId = 0;
 	public static boolean loginState = false;
+	public static Integer userID = null; // id user atau employee yg login 
 	private boolean logoutState = false;
 	
 	UserOrderView userOrderFrame;
-	ChefAddFoodView chefAddFoodFrame;
-	ChefFoodListView chefFoodListFrame;
+	ManageFoodView chefFoodListFrame;
 	ChefOrderListView orderListChefFrame;
 	HistoryOrderView historyFrame;
 	TakenOrderView takenOrderFrame;
@@ -60,7 +61,7 @@ public class MainFormView extends MainView{
 		menuSeparator = new JSeparator();
 		
 		transactionMenu = new JMenu("Transaction");
-		orderMI = new JMenuItem("Order");
+		orderMI = new JMenuItem("Order List");
 		
 		
 		shopMenu = new JMenu("Shop");
@@ -69,9 +70,8 @@ public class MainFormView extends MainView{
 		
 
 		chefMenu = new JMenu("Chef Menu");
-		chefAddFoodMI = new JMenuItem("Add Food");
-		chefFoodListMI = new JMenuItem("Food List");
-		chefOrderListMI = new JMenuItem("Order List");
+		chefFoodListMI = new JMenuItem("Manage Food");
+		chefOrderListMI = new JMenuItem("Order Queue");
 
 		managerMenu = new JMenu("Manager");
 		manageEmployeeMI = new JMenuItem("Manage Employee");
@@ -104,7 +104,6 @@ public class MainFormView extends MainView{
 		shopMenu.setVisible(false);
 
 		mainMenuBar.add(chefMenu);
-		chefMenu.add(chefAddFoodMI);
 		chefMenu.add(chefFoodListMI);
 		chefMenu.add(chefOrderListMI);
 		chefMenu.setVisible(false);
@@ -195,7 +194,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
 				desktop.removeAll();
-				desktop.add(OrderController.getInstance().viewOrders(desktop, 1));
+				desktop.add(OrderController.getInstance().viewOrders(desktop, userID));
 				
 			}
 		});
@@ -205,7 +204,7 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				foodMenuIF = FoodController.getInstance().viewMenu();
+				foodMenuIF = (FoodMenuView) FoodController.getInstance().viewMenu();
 				desktop.removeAll();
 				desktop.add(foodMenuIF);
 			}
@@ -216,7 +215,7 @@ public class MainFormView extends MainView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				cartIF = new CartView();
+				cartIF = (CartView) CartController.getInstance().viewManageCartForm();
 				desktop.removeAll();
 				desktop.add(cartIF);
 			}
@@ -232,28 +231,15 @@ public class MainFormView extends MainView{
 				desktop.add(new ManageEmployeeView());
 			}
 		});
-		
-		chefAddFoodMI.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				add(desktop,BorderLayout.CENTER);
-				chefAddFoodFrame = new ChefAddFoodView();
-				FoodController.getInstance().viewManageFoodForm(chefAddFoodFrame);
-				desktop.removeAll();
-				desktop.add(chefAddFoodFrame);
-			}
-		});
-		
+				
 		chefFoodListMI.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				chefFoodListFrame = new ChefFoodListView();
-				FoodController.getInstance().viewManageFoodForm(chefFoodListFrame);
+				
 				desktop.removeAll();
-				desktop.add(chefFoodListFrame);
+				desktop.add(FoodController.getInstance().viewManageFoodForm());
 			}
 		});
 		

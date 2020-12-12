@@ -122,6 +122,7 @@ public class UserModel {
 		try {
 			while(rs.next()) {
 				roleId = 4; //user
+				userId = rs.getInt("userId");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

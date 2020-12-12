@@ -77,7 +77,7 @@ public class UserOrderView extends View{
 		
 		
 		
-		historyBtn = new JButton("View History Order");
+		historyBtn = new JButton("Click to view order history");
 		cancelOrderBtn = new JButton("Cancel Order");
 		detailOrderBtn = new JButton("Detail Order");
 		
@@ -175,15 +175,15 @@ public class UserOrderView extends View{
 				
 				int row = Integer.parseInt(orderChoosenTxt.getText());
 				
-				if (!(OrderController.getInstance().deleteOrder(row))) {
-					JOptionPane.showMessageDialog(UserOrderView.this,
-						"Cannot delete. The Food has been ordered by someone"
-
-					);
+				if (!OrderController.getInstance().removeOrder(row)) {
+					JOptionPane.showMessageDialog(null, 
+							"Cannot cancel this order",
+							"Error Message", 
+							JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					JOptionPane.showMessageDialog(UserOrderView.this,
-						"Delete Complete"
+						"Cancel Complete"
 					);
 				}
 				
@@ -225,36 +225,4 @@ public class UserOrderView extends View{
 		
 	}
 	
-	private void loadOrderHistory() {
-		// TODO Auto-generated method stub
-//		data = new Vector<>();
-//		header = new Vector<>();
-//		header.add("ID");
-//		header.add("Destination Address");
-//		header.add("Order Date");
-//		header.add("Order Status");
-//		
-//		Vector<OrderModel> listOrderHistory = OrderController.getInstance().viewAllHistoryForUser();
-//		
-//		for (OrderModel orderModel : listOrderHistory) {
-//			
-//			OrderModel order = orderModel;
-//			
-//			detail = new Vector<>();
-//			detail.add(order.getOrderId().toString());
-//			detail.add(order.getAddress());
-//			detail.add(order.getDate().toString());
-//			detail.add(order.getStatus());
-//			
-//			data.add(detail);
-//			
-//		}
-//		
-//			
-//		dtm = new DefaultTableModel(data, header);
-//		
-//		table.setModel(dtm);
-	}
-
-
 }
