@@ -39,8 +39,7 @@ public class MainFormView extends MainView{
 	public static  boolean logoutState = false;
 	
 	UserOrderView userOrderFrame;
-	ChefAddFoodView chefAddFoodFrame;
-	ChefFoodListView chefFoodListFrame;
+	ManageFoodView chefFoodListFrame;
 	ChefOrderListView orderListChefFrame;
 	HistoryOrderView historyFrame;
 	TakenOrderView takenOrderFrame;
@@ -61,7 +60,7 @@ public class MainFormView extends MainView{
 		menuSeparator = new JSeparator();
 		
 		transactionMenu = new JMenu("Transaction");
-		orderMI = new JMenuItem("Order");
+		orderMI = new JMenuItem("Order List");
 		
 		
 		shopMenu = new JMenu("Shop");
@@ -70,9 +69,8 @@ public class MainFormView extends MainView{
 		
 
 		chefMenu = new JMenu("Chef Menu");
-		chefAddFoodMI = new JMenuItem("Add Food");
-		chefFoodListMI = new JMenuItem("Food List");
-		chefOrderListMI = new JMenuItem("Order List");
+		chefFoodListMI = new JMenuItem("Manage Food");
+		chefOrderListMI = new JMenuItem("Order Queue");
 
 		managerMenu = new JMenu("Manager");
 		manageEmployeeMI = new JMenuItem("Manage Employee");
@@ -105,7 +103,6 @@ public class MainFormView extends MainView{
 		shopMenu.setVisible(false);
 
 		mainMenuBar.add(chefMenu);
-		chefMenu.add(chefAddFoodMI);
 		chefMenu.add(chefFoodListMI);
 		chefMenu.add(chefOrderListMI);
 		chefMenu.setVisible(false);
@@ -246,28 +243,15 @@ public class MainFormView extends MainView{
 				desktop.add(new ManageEmployeeView());
 			}
 		});
-		
-		chefAddFoodMI.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				add(desktop,BorderLayout.CENTER);
-				chefAddFoodFrame = new ChefAddFoodView();
-				FoodController.getInstance().viewManageFoodForm(chefAddFoodFrame);
-				desktop.removeAll();
-				desktop.add(chefAddFoodFrame);
-			}
-		});
-		
+				
 		chefFoodListMI.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				add(desktop,BorderLayout.CENTER);
-				chefFoodListFrame = new ChefFoodListView();
-				FoodController.getInstance().viewManageFoodForm(chefFoodListFrame);
+				
 				desktop.removeAll();
-				desktop.add(chefFoodListFrame);
+				desktop.add(FoodController.getInstance().viewManageFoodForm());
 			}
 		});
 		
@@ -290,7 +274,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				historyFrame = new HistoryOrderView(desktop,5,roleId);
+				historyFrame = new HistoryOrderView(desktop,userID,roleId);
 				desktop.removeAll();
 				desktop.add(historyFrame);
 			}
@@ -302,7 +286,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				takenOrderFrame = new TakenOrderView(desktop, 5);
+				takenOrderFrame = new TakenOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(takenOrderFrame);
 			}
@@ -314,7 +298,7 @@ public class MainFormView extends MainView{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				add(desktop,BorderLayout.CENTER);
-				availableOrderFrame = new AvailableOrderView(desktop);
+				availableOrderFrame = new AvailableOrderView(desktop, userID);
 				desktop.removeAll();
 				desktop.add(availableOrderFrame);
 			}

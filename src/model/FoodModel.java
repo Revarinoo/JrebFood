@@ -67,6 +67,7 @@ public class FoodModel {
 			ps.setString(3,description);
 			ps.setString(4, "available");
 			
+		
 			ps.executeUpdate();			
 		} catch (SQLException e) {
 			e.printStackTrace();

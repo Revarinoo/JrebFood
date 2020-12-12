@@ -24,14 +24,14 @@ import controller.FoodController;
 import core.view.View;
 import model.FoodModel;
 
-public class ChefFoodListView extends View{
+public class ManageFoodView extends View{
 	
 	JPanel topPanel, midPanel, midDetail, botPanel, radioPanel;
 	JLabel titleLbl, nameLbl, descLbl, priceLbl, statusLbl;
 	JTextField nameTxt, descTxt, priceTxt;
 	JRadioButton availableRad, notRad;
 	ButtonGroup classGroup;
-	JButton updateStatusBtn, deleteBtn;
+	JButton addBtn, updateStatusBtn, deleteBtn;
 	
 	DefaultTableModel dtm;
 	JTable table;
@@ -42,7 +42,7 @@ public class ChefFoodListView extends View{
 	Integer id, price;
 	String name, description, status;
 
-	public ChefFoodListView() {
+	public ManageFoodView() {
 		super("Food List");
 		this.width=600;
 		this.height=600;
@@ -56,7 +56,7 @@ public class ChefFoodListView extends View{
 		gridBig.setVgap(0);
 		
 		GridLayout gridMid = new GridLayout (4, 2);
-		GridLayout gridBot = new GridLayout (1, 2);
+		GridLayout gridBot = new GridLayout (1, 3);
 		
 		topPanel = new JPanel(new FlowLayout());
 		midPanel = new JPanel(gridBig);
@@ -83,8 +83,11 @@ public class ChefFoodListView extends View{
 
 		 
 		 statusLbl = new JLabel("Status");
+		 statusLbl.setVisible(false);
 		 availableRad = new JRadioButton("Available");
+		 availableRad.setVisible(false);
 		 notRad = new JRadioButton("Unavailable");
+		 notRad.setVisible(false);
 		 radioPanel.add(availableRad);
 		 radioPanel.add(notRad);
 		 classGroup = new ButtonGroup();
@@ -93,6 +96,7 @@ public class ChefFoodListView extends View{
 		 
 		 
 		 updateStatusBtn = new JButton("Update Availability");
+		 addBtn = new JButton("Add Food");
 		 deleteBtn = new JButton("Delete Food");
 		
 	}
@@ -103,8 +107,6 @@ public class ChefFoodListView extends View{
 		
 		midDetail.add(nameLbl);
 		midDetail.add(nameTxt);
-		
-
 		
 		midDetail.add(priceLbl);
 		midDetail.add(priceTxt);
@@ -120,6 +122,7 @@ public class ChefFoodListView extends View{
 
 		
 		botPanel.add(updateStatusBtn);
+		botPanel.add(addBtn);
 		botPanel.add(deleteBtn);
 		
 		
@@ -151,6 +154,10 @@ public class ChefFoodListView extends View{
 				nameTxt.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 				descTxt.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
 				priceTxt.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+				
+				statusLbl.setVisible(true);
+				notRad.setVisible(true);
+				availableRad.setVisible(true);
 				
 				id = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
 				description = descTxt.getText();
@@ -200,49 +207,100 @@ public class ChefFoodListView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-							
-				if (!(FoodController.getInstance().changeStatus(id, status))) {
-					JOptionPane.showMessageDialog(ChefFoodListView.this,
-							"Change is Failed. Please select Food Status"
-							
-						);
-				}
-				else {
-					JOptionPane.showMessageDialog(ChefFoodListView.this,
-							"Change Availability Complete"+
-							"\n\nID : "+id+
-							"\nStatus : "+status
-							
-						);
-					loadData();
+				
+				int confirm = JOptionPane.showConfirmDialog(ManageFoodView.this,
+						"Are you sure to change availability of this food?\n\n"+
+								"Name : "+name+
+								"\nPrice : "+price+
+								"\nDesc : "+description+
+								
+								"\nAvailability : "+status+"\n");
+				
+				if (confirm == JOptionPane.YES_OPTION) {
+					
+					if (!(FoodController.getInstance().changeStatus(id, status))) {
+						JOptionPane.showMessageDialog(null, 
+								"Cannot change this food availability",
+								"Error Message", 
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(ManageFoodView.this,
+								"Change Availability Complete"						
+							);
+						loadData();
+					}
 				}
 
 				
-				
 			}
 		});		
+		
+		addBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 name = nameTxt.getText();
+				 description = descTxt.getText();
+				 price = Integer.parseInt(priceTxt.getText());
+				 status = "available";
+				 
+				 if (!FoodController.getInstance().addFood(name, description, price)) {
+						JOptionPane.showMessageDialog(null, 
+								"Wrong Insert Data",
+								"Error Message", 
+								JOptionPane.ERROR_MESSAGE);
+				 }
+				 else {
+						JOptionPane.showMessageDialog(ManageFoodView.this,
+								
+								"Name : "+name+
+								"\nPrice : "+price+
+								"\nDesc : "+description+
+								
+								"\nAvailability : "+status+
+								"\n\nAdd Food Complete"	
+						);
+						
+						loadData();
+				 }
+				
+				
+
+				
+			}
+		});
 		
 		deleteBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				int confirm = JOptionPane.showConfirmDialog(ManageFoodView.this, 								
+						"Are you sure to remove this food?\n\n"+
+						"Name : "+name+
+						"\nPrice : "+price+
+						"\nDesc : "+description+
+						"\n");
 				
-				FoodController.getInstance().deleteFood(id);
-				
-				if (FoodController.getInstance().deleteFood(id) == false) {
-					JOptionPane.showMessageDialog(ChefFoodListView.this,
-						"Cannot delete. The Food has been ordered by someone"
+				if (confirm == JOptionPane.YES_OPTION) {
+					
+					if (FoodController.getInstance().deleteFood(id) == false) {
+						JOptionPane.showMessageDialog(ManageFoodView.this,
+							"Cannot delete. The Food has been ordered by someone"
 
-					);
+						);
+					}
+					else {
+						JOptionPane.showMessageDialog(ManageFoodView.this,
+							"Delete Complete"
+						);
+					}
+					
+					loadData();
 				}
-				else {
-					JOptionPane.showMessageDialog(ChefFoodListView.this,
-						"Delete Complete"
-					);
-				}
+								
 				
-				loadData();
 
 				
 			}

@@ -87,7 +87,7 @@ public class OrderModel {
 		// TODO Auto-generated method stub
 		Vector<OrderModel> data = new Vector<>();
 		
-		String query = String.format("SELECT * FROM %s", tableName);
+		String query = String.format("SELECT * FROM %s WHERE NOT(orderStatus='finished')", tableName);
 		ResultSet rs = con.executeQuery(query);
 		
 		try {
