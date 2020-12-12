@@ -7,28 +7,41 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+//import javax.xml.bind.ParseConversionEvent;
 
+import controller.CartController;
+import controller.FoodController;
+import controller.OrderController;
+import controller.UserController;
 import core.view.View;
+import model.CartModel;
+import model.FoodModel;
+import model.OrderDetailModel;
+import model.OrderModel;
+import model.UserModel;
 
 public class CartView extends View{
 
-	JPanel mainPanel,northPanel,centerPanel,southPanel,deleteFromCartPanel;
-	JLabel cartFoodIdLbl,cartTitleLbl;
-	JTextField cartFoodIdTf;
-	JButton deleteFromCartBtn,checkoutBtn;
+	JPanel mainPanel,northPanel,centerPanel,southPanel,modifyCartPanel;
+	JLabel cartFoodIdLbl,cartFoodQtyLbl,cartTitleLbl;
+	JTextField cartFoodIdTf,cartQtyTf;
+	JButton removeFromCartBtn,orderBtn;
 	JTable cartTableData;
 	DefaultTableModel cartDtm;
-	JScrollPane cartTableScrollPane;
-	
+	//private Integer userId = 0;
+	// nanti constructor terima userId(customer)
 	public CartView() {
 		super("Cart");
 		this.width=600;
@@ -43,44 +56,33 @@ public class CartView extends View{
 		northPanel = new JPanel(); 
 		centerPanel = new JPanel(new GridLayout(2,1));
 		southPanel = new JPanel(); 
-		deleteFromCartPanel = new JPanel(new GridLayout(1,2));
+		modifyCartPanel = new JPanel(new GridLayout(1,2));
 		
 		cartTitleLbl = new JLabel("Cart");
-		
-		// data template untuk test
-		Object[] column = {"Food Id","Name","Price","Quantity"};
-		
-		Object[][] data = {
-				{"1","Nasi Goreng",14000,1},
-				{"4","Ayam Goreng",15000,2},
-				{"5","Ayam Bakar",15000,1}
-		};
-		
-		cartDtm = new DefaultTableModel(data,column);
-		cartTableData = new JTable(cartDtm);
-		cartTableScrollPane = new JScrollPane(cartTableData);
+		cartTableData = new JTable();
 		
 		cartFoodIdLbl=new JLabel("Food Id");
 		cartFoodIdTf=new JTextField();
 		cartFoodIdTf.setBackground(Color.white);
 		cartFoodIdTf.setEditable(false); 
-		
-		deleteFromCartBtn = new JButton("Delete");
-		checkoutBtn = new JButton("Checkout");
+	
+		removeFromCartBtn = new JButton("Remove");
+		orderBtn = new JButton("Order");
 	}
 
 	@Override
 	public void addComponent() {
 		northPanel.add(cartTitleLbl);
 		
-		centerPanel.add(cartTableScrollPane);
-		centerPanel.add(deleteFromCartPanel);
+		viewManageCartForm();
+		centerPanel.add(new JScrollPane(cartTableData));
+		centerPanel.add(modifyCartPanel);
 		
-		deleteFromCartPanel.add(cartFoodIdLbl);
-		deleteFromCartPanel.add(cartFoodIdTf);
+		modifyCartPanel.add(cartFoodIdLbl);
+		modifyCartPanel.add(cartFoodIdTf);
 		
-		southPanel.add(deleteFromCartBtn);
-		southPanel.add(checkoutBtn);
+		southPanel.add(removeFromCartBtn);
+		southPanel.add(orderBtn);
 		
 		mainPanel.add(northPanel,BorderLayout.NORTH);
 		mainPanel.add(centerPanel,BorderLayout.CENTER);
@@ -89,6 +91,30 @@ public class CartView extends View{
 		add(mainPanel);
 	}
 
+	private void viewManageCartForm() {
+		Vector<String> header = new Vector<>();
+		header.add("Food Id");
+		header.add("Name");
+		header.add("Quantity");
+		header.add("Sub Price");
+		cartDtm = new DefaultTableModel(header,0);
+		
+		Integer userId = 2;// nanti parameter diganti userId(customer) 
+		Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
+		
+		for (CartModel cart : carts) {
+			Vector<Object> row = new Vector<>();
+			row.add(cart.getFoodId());
+			FoodModel food = FoodController.getInstance().getFood(cart.getFoodId());
+			row.add(food.getName());
+			row.add(cart.getQty());
+			row.add(cart.getQty()*food.getPrice());
+			cartDtm.addRow(row);
+		}
+		
+		cartTableData.setModel(cartDtm);
+	}
+	
 	@Override
 	public void addListener() {
 		
@@ -124,22 +150,55 @@ public class CartView extends View{
 			}
 		});
 		
-		deleteFromCartBtn.addActionListener(new ActionListener() {
+		removeFromCartBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// delete logic
-				JOptionPane.showMessageDialog(CartView.this, "Delete from cart","Success", JOptionPane.PLAIN_MESSAGE);
-			}
+				Integer userId=2; // nanti disesuaikan sama userId(cusotmer);
+				
+				Integer foodId = Integer.parseInt(cartFoodIdTf.getText());
+				int deleteConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Are you sure to delete these food from your cart?","Confirmation", JOptionPane.WARNING_MESSAGE);
+				
+				if(deleteConfirmation == JOptionPane.YES_OPTION) {
+					boolean removeFromCart = CartController.getInstance().removeFromCart(userId, foodId);
+					if(removeFromCart) {
+						JOptionPane.showMessageDialog(CartView.this, "Successfully Remove Food From Cart","Success", JOptionPane.PLAIN_MESSAGE);
+						viewManageCartForm();
+					}else {
+						JOptionPane.showMessageDialog(CartView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
+					}
+				}		
+			} 
 		});
 		
-		checkoutBtn.addActionListener(new ActionListener() {
+		orderBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//checkout logic
-				// redirect to order page
-				JOptionPane.showMessageDialog(CartView.this, "Checkout","Success", JOptionPane.PLAIN_MESSAGE);
+				Integer userId=1; // nanti disesuaikan sama userId(cusotmer);
+				UserModel user = UserController.getInstance().getOne(userId);
+				Date date = java.sql.Date.valueOf(java.time.LocalDate.now());
+				
+				Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
+			
+				int orderConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Proceed Order? ","Confirmation", JOptionPane.WARNING_MESSAGE);
+				
+				if(orderConfirmation == JOptionPane.YES_OPTION) {
+					boolean orderStatus = OrderController.getInstance().addOrder(user, date);
+					if(orderStatus) {
+						OrderModel order = OrderController.getInstance().getNewInsertedOrder(userId);    
+						
+						for (CartModel cart : carts) {
+							OrderDetailModel orderDetail = new OrderDetailModel();
+							orderDetail.addOrderDetail(order.getOrderId(), cart.getFoodId(), cart.getQty());
+						}
+						JOptionPane.showMessageDialog(CartView.this, "Order Successful","Success", JOptionPane.PLAIN_MESSAGE);
+						CartController.getInstance().removeAll(user.getUserId());
+						viewManageCartForm();
+					}else {
+						JOptionPane.showMessageDialog(CartView.this, OrderController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
+					}
+				}
 			}
 		});
 		

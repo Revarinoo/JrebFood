@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,6 +105,20 @@ public class OrderDetailModel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public void addOrderDetail(Integer orderId,Integer foodId,Integer qty) {
+		String query = String.format("INSERT INTO %s VALUES (?, ?, ?)", tableName) ;
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, orderId);
+			ps.setInt(2, foodId);
+			ps.setInt(3, qty);		
+			ps.executeUpdate();		
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }
