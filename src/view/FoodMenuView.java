@@ -66,12 +66,12 @@ public class FoodMenuView extends View{
 		
 		nameLbl = new JLabel("Food Name");
 		nameLbl.setPreferredSize(new Dimension(70,30));	
-		nameTf = new JTextField();	
+		nameTf = new JTextField("");	
 		nameTf.setPreferredSize(new Dimension(100,30));
 		nameTf.setBackground(Color.white);
 		priceLbl = new JLabel("Price");
 		priceLbl.setPreferredSize(new Dimension(70,30));
-		priceTf = new JTextField();
+		priceTf = new JTextField("");
 		priceTf.setPreferredSize(new Dimension(100,30));
 		priceTf.setBackground(Color.white);
 		nameTf.setEditable(false); 
@@ -180,13 +180,17 @@ public class FoodMenuView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer userId=2; 
+				Integer userId=MainFormView.userID; 
 				Integer qty = (Integer) quantitySpn.getValue();
-				boolean addToCart = CartController.getInstance().addToCart(userId,foodId,qty);
-				if(addToCart) {
-					JOptionPane.showMessageDialog(FoodMenuView.this, "Successfully Add Food to Cart","Success", JOptionPane.PLAIN_MESSAGE);
+				if(nameTf.getText().equals("") || priceTf.getText().equals("")|| qty==0) {
+					JOptionPane.showMessageDialog(FoodMenuView.this, "Please choose the food and determine the food quantity","Error Message", JOptionPane.ERROR_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(FoodMenuView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.WARNING_MESSAGE);
+					boolean addToCart = CartController.getInstance().addToCart(userId,foodId,qty);
+					if(addToCart) {
+						JOptionPane.showMessageDialog(FoodMenuView.this, "Successfully Add Food to Cart","Success", JOptionPane.PLAIN_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(FoodMenuView.this, CartController.getInstance().getErrorMsg(),"Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});

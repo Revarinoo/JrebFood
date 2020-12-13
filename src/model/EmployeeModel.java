@@ -99,7 +99,7 @@ public class EmployeeModel {
 	}
 	
 	public boolean createEmployee() {
-		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?,null,null)", tableName);
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
 		try {
@@ -126,7 +126,6 @@ public class EmployeeModel {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}	
 	}
@@ -162,7 +161,6 @@ public class EmployeeModel {
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		try {
@@ -171,7 +169,7 @@ public class EmployeeModel {
 				id = rs.getInt("employeeId");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return roleId;
 	}

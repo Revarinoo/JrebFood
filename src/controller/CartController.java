@@ -1,13 +1,12 @@
 package controller;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import core.view.View;
 import model.CartModel;
 import model.FoodModel;
 import view.CartView;
+import view.MainFormView;
 
 public class CartController {
 
@@ -65,7 +64,7 @@ public class CartController {
 		}
 		
 		if(isFoodExist(food.getName())) {
-			Vector<CartModel> carts = viewAll(2);// nanti parameter diganti userId(customer) 
+			Vector<CartModel> carts = viewAll(userId);
 			
 			for (CartModel uCart : carts) {
 				if(uCart.getFoodId()==foodId) {
@@ -82,7 +81,7 @@ public class CartController {
 	}
 
 	public boolean isFoodExist(String foodName) {
-		Integer userId=2;// nanti parameter diganti userId(customer) 
+		Integer userId=MainFormView.userID;
 		Vector<CartModel> carts = viewAll(userId);
 		
 		for (CartModel cart : carts) {

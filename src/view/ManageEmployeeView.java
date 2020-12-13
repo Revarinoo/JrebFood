@@ -236,6 +236,13 @@ public class ManageEmployeeView extends View{
 				if(input == 0) {
 					if(EmployeeController.getInstance().changeStatus(id)) {
 						JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success!");
+						idValue.setText("-");
+						roleCB.setSelectedItem("");
+						nameTxt.setText("");
+						dobModel.setValue(null);
+						emailTxt.setText("");
+						passwordTxt.setText("");
+						statusCB.setSelectedItem("");
 					}
 				}
 				loadData();
