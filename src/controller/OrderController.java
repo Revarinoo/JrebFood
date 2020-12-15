@@ -66,7 +66,6 @@ public class OrderController {
 	}
 	
 	public View viewOrderQueue(View target) {
-		// TODO Auto-generated method stub
 		return target;
 	}
 
@@ -104,11 +103,13 @@ public class OrderController {
 		return order.getOne(orderId);
 	}
 	
+	// Untuk melihat order berdasarkan user id
 	public Vector<OrderModel> viewAllHistoryForUser(Integer userId){
 		OrderModel order = new OrderModel();
 		return order.viewAllHistoryForUser(userId);
 	}
 	
+	// Untuk melihat order berdasarkan driver id
 	public Vector<OrderModel> viewAllHistoryForDriver(Integer driverId){
 		OrderModel order = new OrderModel();
 		return order.viewAllHistoryForDriver(driverId);
@@ -118,8 +119,6 @@ public class OrderController {
 		
 		//buat validasi user, kalo dia ga bisa cancel order yang udah 'accepted'
 
-			
-		
 		if (status.equals("cooked")) {
 			if(order.getStatus().equals("ordered")) {
 				return true;
@@ -157,6 +156,7 @@ public class OrderController {
 		return detail.viewDetailById(orderId);
 	}
 
+	// untuk mendapatkan nilai total transaksi dari semua driver
 	public Integer totalFinishedTransaction() {
 		OrderDetailModel od = new OrderDetailModel();
 		return od.totalFinishedTransaction();
@@ -184,7 +184,7 @@ public class OrderController {
 		if (order.deleteOrder(orderId) == false) {
 			return false;
 		}
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 

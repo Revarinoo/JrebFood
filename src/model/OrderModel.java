@@ -74,17 +74,12 @@ public class OrderModel {
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}	
 		return true;
 	}
 	
-	
-	
-	
 	public Vector<OrderModel> getOrderForChef() {
-		// TODO Auto-generated method stub
 		Vector<OrderModel> data = new Vector<>();
 		
 		String query = String.format("SELECT * FROM %s WHERE orderStatus=?", tableName);
@@ -310,8 +305,7 @@ public class OrderModel {
 			ps.setInt(1, driverId);
 			rs = ps.executeQuery();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			
 		}
 		
 		try {
