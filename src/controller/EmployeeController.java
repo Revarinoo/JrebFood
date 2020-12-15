@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import core.view.View;
 import model.EmployeeModel;
-import model.UserModel;
 import view.MainFormView;
 import view.ManageEmployeeView;
 
@@ -38,6 +37,7 @@ public class EmployeeController {
 		return employee.viewAll(roleId);
 	}
 	
+	
 	public boolean createEmployee(Integer roleId, String name, Date DOB, String email, String password, String status) {
 		try {
 			EmployeeModel employee = new EmployeeModel();
@@ -56,6 +56,7 @@ public class EmployeeController {
 		}
 	}
 	
+	// untuk validasi field nama, tanggal lahir, dan email
 	private boolean validateFields(String name, Date DOB, String email) {
 		Date today = new Date(Calendar.getInstance().getTime().getTime());
 		if(name.equals("")) return false;
@@ -64,6 +65,7 @@ public class EmployeeController {
 		return true;
 	}
 	
+	// untuk merubah status employee yang dipecat dari active menjadi inactive
 	public boolean changeStatus(Integer id) {
 		EmployeeModel employee = new EmployeeModel();
 		employee.setId(id);

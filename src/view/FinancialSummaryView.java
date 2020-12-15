@@ -10,11 +10,9 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -23,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.OrderController;
 import core.view.View;
-import model.OrderDetailModel;
 import model.OrderModel;
 
 public class FinancialSummaryView extends View{

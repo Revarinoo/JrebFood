@@ -1,11 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +18,6 @@ import javax.swing.border.EmptyBorder;
 
 import controller.EmployeeController;
 import controller.UserController;
-import core.view.MainView;
 import core.view.View;
 
 public class LoginView extends View{

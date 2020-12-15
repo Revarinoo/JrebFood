@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,6 +75,7 @@ public class OrderDetailModel {
 	}
 	
 
+	// untuk mendapatkan nilai total transaksi dari semua driver
 	public Integer totalFinishedTransaction() {
 		Integer total = 0;
 		String query = String.format("SELECT SUM(f.foodPrice) AS total FROM orders o JOIN order_details od  ON o.orderId = od.orderId JOIN foods f ON od.foodId = f.foodId WHERE o.orderStatus = 'finished'");
@@ -86,14 +86,12 @@ public class OrderDetailModel {
 			}
 			return total;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 			return 0;
 		}
 		
 	}
 	public boolean deleteDetailByOrder(Integer orderId) {
-		// TODO Auto-generated method stub
 		String query = String.format("DELETE FROM %s WHERE orderId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		

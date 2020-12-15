@@ -14,7 +14,6 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,7 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -110,8 +108,7 @@ public class ManageEmployeeView extends View{
 		statusLbl = new JLabel("Status");
 		statusCB = new JComboBox<>();
 		fireBtn = new JButton("Fire Employee");
-		hireBtn = new JButton("Hire Employee");
-		
+		hireBtn = new JButton("Hire Employee");	
 	}
 
 	@Override
@@ -124,8 +121,7 @@ public class ManageEmployeeView extends View{
 		statusCB.addItem("inactive");
 		roleCB.addItem("Chef");
 		roleCB.addItem("Driver");
-		
-		
+			
 		topPanel.add(titleLbl);
 		
 		midDetail.add(idLbl);

@@ -149,7 +149,7 @@ public class CartController {
 	 	Fungsi ini menerima sebuah parameter yaitu (userId).
 	 	
 	 	Fungsi ini bertugas untuk menghapus seluruh makanan yag ada dalam cart user setelah melakukan 
-	 	chekout terhadap makanan yang dipesan.
+	 	chekout terhadap makanan yang dipesan
 	 */
 	public void removeAll(Integer userId) {
 		CartModel cart = new CartModel();

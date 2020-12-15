@@ -22,7 +22,7 @@ public class UserController {
 	}
 	
 	private UserController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public View viewRegistrationForm() {
@@ -57,7 +57,7 @@ public class UserController {
 	
 	public boolean validateUnique(String email, String phoneNumber) {
 		if(!email.contains("@") || !email.contains(".")) return false;
-		if(phoneNumber.length() < 11 || phoneNumber.length() > 12) return false;
+		if(phoneNumber.length() < 10 || phoneNumber.length() > 12) return false;
 		return true;
 	}
 	
