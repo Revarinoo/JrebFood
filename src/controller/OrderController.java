@@ -158,6 +158,13 @@ public class OrderController {
 		return od.totalFinishedTransaction();
 	}
 
+	/*
+	 * Function ini berfungsi untuk melakukan cancel pada order yang dilakukan oleh user.
+	 * pada function ini, terdapat validasi untuk memastikan bahwa user tidak bisa meng-cancel
+	 * order yang sudah diambil driver (order dengan status "accepted", "ordered", "cooked", atau "accepted")
+	 * Ketika meng-cancel sebuah order, maka sistem akan menghapus order dan order detail yang memiliki id order
+	 * tersebut
+	 * */
 	public boolean removeOrder(Integer orderId) {
 		
 		OrderModel temp = getOne(orderId);
@@ -184,6 +191,9 @@ public class OrderController {
 		return true;
 	}
 
+	/*
+	 * Function yang berfungsi sebagai validasi saat meng-cancel order
+	 * */
 	private boolean validateOrderedStatus(String status) {
 		if (status.equals("accepted") || status.equals("ordered") || status.equals("cooked")) {
 			
