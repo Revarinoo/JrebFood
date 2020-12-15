@@ -212,9 +212,7 @@ public class ManageFoodView extends View{
 						"Are you sure to change availability of this food?\n\n"+
 								"Name : "+name+
 								"\nPrice : "+price+
-								"\nDesc : "+description+
-								
-								"\nAvailability : "+status+"\n");
+								"\nDesc : "+description+"\n");
 				
 				if (confirm == JOptionPane.YES_OPTION) {
 					

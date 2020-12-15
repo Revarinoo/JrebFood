@@ -70,7 +70,8 @@ public class FoodModel {
 		
 			ps.executeUpdate();			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
+			return false;
 		}	
 		return true;
 	}

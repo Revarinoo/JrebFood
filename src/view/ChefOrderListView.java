@@ -37,6 +37,7 @@ public class ChefOrderListView extends View{
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	Integer orderId, driverId;
+	String orderStatus;
 
 	public ChefOrderListView() {
 		super("Order List");
@@ -161,7 +162,7 @@ public class ChefOrderListView extends View{
 				if (!OrderController.getInstance().updateStatus(orderId, statusCooked)) {
 				
 							JOptionPane.showMessageDialog(null, 
-									"Wrong Update Data",
+									"Cannot change this order status",
 									"Error Message", 
 									JOptionPane.ERROR_MESSAGE);
 					 
@@ -193,8 +194,8 @@ public class ChefOrderListView extends View{
 		header.add("Driver Id");
 		header.add("Status");
 		
-		
-		Vector<OrderModel> listorder = OrderController.getInstance().getOrderForChef();
+		orderStatus = "ordered";
+		Vector<OrderModel> listorder = OrderController.getInstance().getOrderForChef(orderStatus);
 		
 		for ( OrderModel model : listorder) {
 			OrderModel order = (OrderModel )model;
