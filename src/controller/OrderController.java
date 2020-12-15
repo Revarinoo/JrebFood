@@ -115,35 +115,29 @@ public class OrderController {
 	
 	public boolean validateStatus(OrderModel order, String status) {
 		
-		//buat validasi user, kalo dia ga bisa cancel order yang udah 'accepted'
-
-			
+		/*
+		 * Function ini berfungsi untuk memvalidasi status sebelum status di update
+		 * terdapat beberapa kondisi validasi, yaitu:
+		 */
 		
-		if (status.equals("cooked")) {
+		if (status.equals("cooked")) { // jika ingin mengubah status menjadi cooked, harus berstatus ordered terlebih dahulu
 			if(order.getStatus().equals("ordered")) {
 				return true;
 			}
-			
 			return false;
 		}
-		else if(status.equals("finished")) {
+		else if(status.equals("finished")) { // jika ingin mengubah status menjadi finished, harus berstatus cooked terlebih dahulu
 			if(order.getStatus().equals("cooked")) {
 				return true;
 			}
 			return false;
-		}else if(status.equals("ordered")){
+		}else if(status.equals("ordered")){ // jika ingin mengubah status menjadi ordered, harus berstatus accepted terlebih dahulu
 			if(order.getStatus().equals("accepted")) {
 				return true;
 			}
 			return false;
-		}else if(status.equals("cooked")) {
-			if(order.getStatus().equals("ordered")) {
-				return true;
-			}
-			return false;
-		}else {
-			return false;
 		}
+			return false;
 	}
 	
 	public Vector<OrderModel> viewTakenOrder(Integer driverId){

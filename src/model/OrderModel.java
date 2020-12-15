@@ -116,6 +116,11 @@ public class OrderModel {
 	
 	
 	public Vector<OrderModel> getAll() {
+		/*
+		 * function ini berfungsi untuk model mengambil data order yang belum di ambil oleh driver,
+		 * dengan kata lain mengambil order dengan status not accepted untuk ditampilkan pada
+		 * halaman available order
+		 */
 		Vector<OrderModel> availableOrderList = new Vector<OrderModel>();
 		String query = String.format("SELECT * FROM %s where orderStatus='not accepted'",tableName);
 
@@ -195,6 +200,7 @@ public class OrderModel {
 	
 
 	public Vector<OrderModel> getAllFinishedOrder(){
+		
 		Vector<OrderModel> availableOrderList = new Vector<OrderModel>();
 		String query = String.format("SELECT * FROM %s where orderStatus='finished'",tableName);
 
@@ -295,6 +301,10 @@ public class OrderModel {
 	}
 	
 	public Vector<OrderModel> viewAllHistoryForDriver(Integer driverId){
+		/*
+		 * Function ini berfungsi untuk model mengambil data riwayat order seorang driver yang sudah selesai (berstatus finished)
+		 * nantinya data akan ditampilkan pada halaman history untuk driver
+		 */
 		Vector<OrderModel> historyList = new Vector<OrderModel>();
 		String query = String.format("SELECT * FROM %s where driverId=? AND orderStatus='finished'",tableName);
 		PreparedStatement ps = con.prepareStatement(query);

@@ -23,6 +23,17 @@ import core.view.View;
 import model.OrderModel;
 
 public class AvailableOrderView extends View {
+	/*
+	 *  Class ini merupakan class untuk menampilkan list order yang dapat di ambil oleh driver
+	 *  data order yang ditampilkan merupakan order yang memiliki status not accepted.
+	 *  Pada halaman ini driver dapat memilih salah satu dari order yang tersedia dan 
+	 *  memiliki validasi agar driver tidak bisa memasukan id secara manual namun harus 
+	 *  memilih transaksi yang ada di tabel, serta akan ada error yang muncul ketika driver 
+	 *  belum memilih transaksi kemudian akan ada confirmation dialog yang meminta konfirmasi dari driver. 
+	 *  Setelah driver mengkonfirmasi maka status order akan terupdate menjadi accepted, dan halaman akan 
+	 *  berpindah ke halaman user information untuk melihat detail data user. Setelah itu driver dapat menekan 
+	 *  tombol proceed dan berpindah ke halaman order detail untuk melihat detail dari orderan yang ia ambil. 
+	 */
 	
 	JPanel main,top,center,bottom,bottom1,bottom2,choosePanel;
 	JLabel titleLabel,chooseLabel;
@@ -35,6 +46,7 @@ public class AvailableOrderView extends View {
 	JDesktopPane desktop;
 	Vector<OrderModel> listOrder;
 	Integer driverId;
+	
 	public AvailableOrderView(JDesktopPane desktop, Integer driverId) {
 		super("Available Order");
 		// TODO Auto-generated constructor stub
@@ -47,7 +59,7 @@ public class AvailableOrderView extends View {
 	}
 
 	private void loadData() {
-		// TODO Auto-generated method stub
+		// Function untuk meload data untuk ditampilkan
 		header.add("Order ID");
 		header.add("Order Date");
 		header.add("Address");
@@ -76,7 +88,7 @@ public class AvailableOrderView extends View {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		// Function untuk menginisialisasi component yang dibutuhkan
 		main = new JPanel(new BorderLayout());
 		top = new JPanel();
 		bottom = new JPanel(new GridLayout(2,1));
@@ -108,7 +120,7 @@ public class AvailableOrderView extends View {
 
 	@Override
 	public void addComponent() {
-		// TODO Auto-generated method stub
+		// Function untuk memasukan component yang dibutuhkan
 		//Top
 		top.add(titleLabel);
 		main.add(top,BorderLayout.NORTH);
@@ -135,7 +147,7 @@ public class AvailableOrderView extends View {
 
 	@Override
 	public void addListener() {
-		// TODO Auto-generated method stub
+		// Function untuk menambahkan listener untuk table order dan button Take Order
 		tableOrder.addMouseListener(new MouseListener() {
 			
 			@Override
