@@ -47,9 +47,10 @@ public class OrderController {
 //		order.updateStatus(orderId, status);
 //	}
 	
-	public Vector<OrderModel> getOrderForChef() {
+	public Vector<OrderModel> getOrderForChef(String orderStatus) {
 		
 		OrderModel order = new OrderModel();
+		order.setStatus(orderStatus);
 		return order.getOrderForChef();
 	}
 	

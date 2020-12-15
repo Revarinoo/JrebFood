@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import core.view.View;
 import model.FoodModel;
-import model.FoodModel;
 import view.ManageFoodView;
 import view.FoodMenuView;
 

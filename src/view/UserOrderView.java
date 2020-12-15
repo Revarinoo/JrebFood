@@ -177,8 +177,8 @@ public class UserOrderView extends View{
 				
 				if (!OrderController.getInstance().removeOrder(row)) {
 					JOptionPane.showMessageDialog(null, 
-							"Cannot cancel this order",
-							"Error Message", 
+							"Cannot cancel this order. This order is taken by driver",
+							"Cancel Error", 
 							JOptionPane.ERROR_MESSAGE);
 				}
 				else {
