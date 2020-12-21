@@ -87,7 +87,6 @@ public class FoodModel {
 		try {
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}	
 		return true;
 	}
@@ -129,7 +128,6 @@ public class FoodModel {
 			}
 			return foods;
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}	
 		return null;
 	}

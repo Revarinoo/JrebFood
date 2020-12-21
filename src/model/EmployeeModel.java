@@ -72,7 +72,7 @@ public class EmployeeModel {
 			ps.setInt(1, roleId);
 			result = ps.executeQuery();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		
 		try {
@@ -93,7 +93,7 @@ public class EmployeeModel {
 			}
 			return data;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			return null;
 		}
 	}
@@ -112,7 +112,6 @@ public class EmployeeModel {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -146,7 +145,6 @@ public class EmployeeModel {
 			}
 			return data;
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

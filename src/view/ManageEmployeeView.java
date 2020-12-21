@@ -208,12 +208,12 @@ public class ManageEmployeeView extends View{
 				
 				if(EmployeeController.getInstance().createEmployee(roleId, name, DOB, email, password, status)) {
 					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Success\n"+
-							name+"\n"+
-							role+ "\n"+
-							email + "\n"+
-							DOB + "\n"+
-							password + "\n"+
-							status + "\n"
+							"Name : "+name+"\n"+
+							"Role : "+role+ "\n"+
+							"Email : "+email + "\n"+
+							"Date of Birth : "+DOB + "\n"+
+							"Password : "+password + "\n"+
+							"Status : "+status + "\n"
 								);
 				}
 				else {

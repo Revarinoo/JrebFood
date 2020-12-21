@@ -50,7 +50,6 @@ public class UserController {
 			
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

@@ -49,8 +49,6 @@ public class OrderDetailModel {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		try {
@@ -68,8 +66,6 @@ public class OrderDetailModel {
 			}
 			return listDetail;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -101,7 +97,6 @@ public class OrderDetailModel {
 			
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -116,7 +111,6 @@ public class OrderDetailModel {
 			ps.setInt(3, qty);		
 			ps.executeUpdate();		
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 }

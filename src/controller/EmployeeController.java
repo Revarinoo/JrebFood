@@ -25,7 +25,7 @@ public class EmployeeController {
 	}
 	
 	private EmployeeController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public View viewManageEmployeeForm() {
@@ -65,7 +65,7 @@ public class EmployeeController {
 		return true;
 	}
 	
-	// untuk merubah status employee yang dipecat dari active menjadi inactive
+	// untuk merubah status employee yang dinonaktifkan dari active menjadi inactive
 	public boolean changeStatus(Integer id) {
 		EmployeeModel employee = new EmployeeModel();
 		employee.setId(id);
