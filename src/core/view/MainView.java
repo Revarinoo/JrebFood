@@ -20,7 +20,7 @@ public abstract class MainView extends JFrame {
 	    setSize(screenSize.width, screenSize.height);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 	}
 	
 	public abstract void initialize();

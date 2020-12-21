@@ -196,6 +196,11 @@ public class OrderController {
 		return true;
 	}
 	
+	/*
+	 * Pada Function ini list makanan yang sudah berada di cart akan dimasukan ke dalam order baru dari user tersebut.
+	 * Makanan pada cart akan buat ke dalam order beserta detail dari makanannya baru lalu setelah itu makanan pada cart akan di hapus melalui fungsi removeAll().
+	 * Kemudian untuk fitur "Cancel order", digambung ke dalam frame UserOrderView.
+	 */
 	public boolean addOrder(UserModel user,Date date) {
 		Vector<CartModel> carts = CartController.getInstance().viewAll(user.getUserId());
 		OrderModel order = new OrderModel();
