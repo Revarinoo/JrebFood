@@ -172,7 +172,7 @@ public class TakenOrderView extends View{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				int row = tableOrder.getSelectedRow();
 				chooseTxt.setText(tableOrder.getValueAt(row, 0).toString());
 			}
@@ -182,7 +182,7 @@ public class TakenOrderView extends View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				if(chooseTxt.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Please choose Order!","Error Message", JOptionPane.ERROR_MESSAGE);
 				}else {

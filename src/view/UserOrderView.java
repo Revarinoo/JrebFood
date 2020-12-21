@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import controller.FoodController;
 import controller.OrderController;
 import core.view.View;
 import model.OrderModel;
@@ -71,6 +73,8 @@ public class UserOrderView extends View{
 		
 		orderChoosenLbl = new JLabel("Choose Order ID");
 		orderChoosenTxt = new JTextField();
+		orderChoosenTxt.setEditable(false);
+		orderChoosenTxt.setPreferredSize(new Dimension(100,30));
 		
 		
 		
@@ -88,6 +92,7 @@ public class UserOrderView extends View{
 		
 		midLabelPanel.add(orderChoosenLbl);
 		midLabelPanel.add(orderChoosenTxt);
+		
 		
 		midPanel.add(sp);
 		midPanel.add(midLabelPanel);
@@ -143,6 +148,8 @@ public class UserOrderView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				// Memanggil view baru, yaitu History View karena pada Sequence Diagram terdapat
+				// instruksi memanggil method History dengan return view
 				desktop.add(new HistoryOrderView(desktop,id,null));
 				dispose();
 				
@@ -154,8 +161,19 @@ public class UserOrderView extends View{
 		
 		detailOrderBtn.addActionListener(new ActionListener() {
 			
+			
+			// Memanggil view baru, yaitu Detail View karena pada Sequence Diagram terdapat
+			// instruksi memanggil method Detail dengan return view
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				if (orderChoosenTxt.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, 
+							"Please input data first!",
+							"Cancel Error", 
+							JOptionPane.ERROR_MESSAGE);
+				}
 
 				int row = Integer.parseInt(orderChoosenTxt.getText());
 				desktop.add(new DetailsOrderView(desktop, row));
@@ -170,19 +188,35 @@ public class UserOrderView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int row = Integer.parseInt(orderChoosenTxt.getText());
-				
-				if (!OrderController.getInstance().removeOrder(row)) {
+				if (orderChoosenTxt.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, 
-							"Cannot cancel this order. This order is taken by driver",
+							"Please input data first!",
 							"Cancel Error", 
 							JOptionPane.ERROR_MESSAGE);
 				}
-				else {
-					JOptionPane.showMessageDialog(UserOrderView.this,
-						"Cancel Complete"
-					);
+				
+				int row = Integer.parseInt(orderChoosenTxt.getText());
+				
+
+				
+				int confirm = JOptionPane.showConfirmDialog(UserOrderView.this,"Are you sure to cancel this order?", "Cancel Confirmation"
+				, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);	
+				
+				if (confirm == JOptionPane.YES_OPTION) {
+					if (!OrderController.getInstance().removeOrder(row)) {
+						JOptionPane.showMessageDialog(null, 
+								"Cannot cancel this order. This order is taken by driver",
+								"Cancel Error", 
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(UserOrderView.this,
+								"Cancel Complete"
+							);
+					}
+
 				}
+
 				
 				loadActiveOrder();
 				

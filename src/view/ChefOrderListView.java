@@ -152,7 +152,10 @@ public class ChefOrderListView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (!OrderController.getInstance().updateStatus(orderId, statusCooked)) {
+				if (orderIdTxt.getText().equals("") || driverIdTxt.getText().equals("") || 
+						!OrderController.getInstance().updateStatus(orderId, statusCooked))
+				
+						 {
 				
 							JOptionPane.showMessageDialog(null, 
 									"Cannot change this order status",

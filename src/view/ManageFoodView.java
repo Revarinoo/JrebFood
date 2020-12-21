@@ -78,7 +78,7 @@ public class ManageFoodView extends View{
 		 descTxt = new JTextField();
 			 
 		 priceLbl = new JLabel("Price");
-		 priceTxt = new JTextField();
+		 priceTxt = new JTextField("0");
 		 
 
 		 
@@ -205,30 +205,44 @@ public class ManageFoodView extends View{
 				
 		updateStatusBtn.addActionListener(new ActionListener() {
 			
+			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				int confirm = JOptionPane.showConfirmDialog(ManageFoodView.this,
-						"Are you sure to change availability of this food?\n\n"+
-								"Name : "+name+
-								"\nPrice : "+price+
-								"\nDesc : "+description+"\n");
-				
-				if (confirm == JOptionPane.YES_OPTION) {
+				if(nameTxt.getText().equals("") || descTxt.getText().equals("") || priceTxt.getText().equals("0")) {
+					JOptionPane.showMessageDialog(null, "Please choose food to update!","Error Message", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (status == null) {
+					JOptionPane.showMessageDialog(null, 
+							"Cannot change this food availability",
+							"Error Message", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					int confirm = JOptionPane.showConfirmDialog(ManageFoodView.this,
+									"Name : "+name+
+									"\nPrice : "+price+
+									"\nDesc : "+description+"\n"
+									, "Are you sure to change availability of this food?\n\n"
+									, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 					
-					if (!(FoodController.getInstance().changeStatus(id, status))) {
-						JOptionPane.showMessageDialog(null, 
-								"Cannot change this food availability",
-								"Error Message", 
-								JOptionPane.ERROR_MESSAGE);
-					}
-					else {
-						JOptionPane.showMessageDialog(ManageFoodView.this,
-								"Change Availability Complete"						
-							);
-						loadData();
+					if (confirm == JOptionPane.YES_OPTION) {
+						
+						if (!(FoodController.getInstance().changeStatus(id, status))) {
+							JOptionPane.showMessageDialog(null, 
+									"Cannot change this food availability",
+									"Error Message", 
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							JOptionPane.showMessageDialog(ManageFoodView.this,
+									"Change Availability Complete"						
+								);
+							loadData();
+						}
 					}
 				}
+
 
 				
 			}
@@ -240,10 +254,11 @@ public class ManageFoodView extends View{
 			public void actionPerformed(ActionEvent e) {
 				 name = nameTxt.getText();
 				 description = descTxt.getText();
+			
 				 price = Integer.parseInt(priceTxt.getText());
 				 status = "available";
 				 
-				 if (!FoodController.getInstance().addFood(name, description, price)) {
+				 if (!FoodController.getInstance().addFood(name, price, description)) {
 						JOptionPane.showMessageDialog(null, 
 								"Wrong Insert Data",
 								"Error Message", 
@@ -274,33 +289,37 @@ public class ManageFoodView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int confirm = JOptionPane.showConfirmDialog(ManageFoodView.this, 								
-						"Are you sure to remove this food?\n\n"+
-						"Name : "+name+
-						"\nPrice : "+price+
-						"\nDesc : "+description+
-						"\n");
-				
-				if (confirm == JOptionPane.YES_OPTION) {
-					
-					if (FoodController.getInstance().deleteFood(id) == false) {
-						JOptionPane.showMessageDialog(ManageFoodView.this,
-							"Cannot delete. The Food has been ordered by someone"
 
-						);
-					}
-					else {
-						JOptionPane.showMessageDialog(ManageFoodView.this,
-							"Delete Complete"
-						);
-					}
-					
-					loadData();
+				if(nameTxt.getText().equals("") || descTxt.getText().equals("") || priceTxt.getText().equals("0")) {
+					JOptionPane.showMessageDialog(null, "Please choose food to delete!","Error Message", JOptionPane.ERROR_MESSAGE);
 				}
-								
-				
+				else {
+					int confirm = JOptionPane.showConfirmDialog(new ManageEmployeeView(), 					
+							
+							"Name : "+name+
+							"\nPrice : "+price+
+							"\nDesc : "+description+
+							"\n", "Are you sure to remove this food?"
+					, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);	
+					
+					if (confirm == JOptionPane.YES_OPTION) {
+						
+						if (FoodController.getInstance().deleteFood(id) == false) {
+							JOptionPane.showMessageDialog(ManageFoodView.this,
+								"Cannot delete. The Food has been ordered by someone"
 
-				
+							);
+						}
+						else {
+							JOptionPane.showMessageDialog(ManageFoodView.this,
+								"Delete Complete"
+							);
+						}
+						
+						loadData();
+					}
+				}
+
 			}
 		});	
 		

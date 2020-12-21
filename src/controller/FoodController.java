@@ -33,19 +33,19 @@ public class FoodController {
 	 * dari hasil input pada View. Setelah itu, akan dijalankan method addFood pada model
 	 * agar model dapat memasukkan data yang telah dioper ke dalam database
 	 * */
-	public boolean addFood(String name, String desc, Integer price) {
+	public boolean addFood(String name, Integer  price, String description) {
 		FoodModel food = new FoodModel();
 		
-		if (!validateInput(name, desc, price)) {
+		if (!validateInput(name, price, description)) {
 			return false;
 		}
 		
 		food.setName(name);
-		food.setDescription(desc);
+		food.setDescription(description);
 		food.setPrice(price);
 		
 
-		if(!food.addFood(name, desc, price)) return false;
+		if(!food.addFood(name, description, price)) return false;
 		
 		return true;
 	}
@@ -55,7 +55,7 @@ public class FoodController {
 	 * memastikan bahwa Chef tidak mengkosongkan data yang akan dimasukkan, seperti 
 	 * nama, desc, dan price.
 	 * */
-	private boolean validateInput(String name, String desc, Integer price) {
+	private boolean validateInput(String name,  Integer price, String desc) {
 		
 		if(name.isEmpty() || desc.isEmpty() || (price == 0 || price == null)) {
 			return false;
@@ -63,13 +63,13 @@ public class FoodController {
 		return true;
 	}
 
-	public boolean deleteFood(Integer id) {
+	public boolean deleteFood(Integer foodId) {
 		
 		FoodModel food = new FoodModel();
-		food.setFoodId(id);
-		food.deleteFood(id);
+		food.setFoodId(foodId);
+		food.deleteFood(foodId);
 		
-		if (food.deleteFood(id) == false) {
+		if (food.deleteFood(foodId) == false) {
 			return false;
 		}
 		
