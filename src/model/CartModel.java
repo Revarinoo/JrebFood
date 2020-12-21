@@ -59,7 +59,7 @@ public class CartModel {
 			}
 			return carts;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}	
 		return null;
 	}
@@ -74,7 +74,7 @@ public class CartModel {
 			ps.setInt(3, qty);		
 			return ps.executeUpdate()==1;		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -89,7 +89,7 @@ public class CartModel {
 			ps.setInt(3, foodId);		
 			return ps.executeUpdate()==1;		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -103,7 +103,7 @@ public class CartModel {
 			ps.setInt(2, foodId);		
 			return ps.executeUpdate()==1;		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -116,7 +116,7 @@ public class CartModel {
 			ps.setInt(1, userId);		
 			ps.executeUpdate();		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 	}
 }

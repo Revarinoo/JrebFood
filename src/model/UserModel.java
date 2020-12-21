@@ -67,7 +67,6 @@ public class UserModel {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -80,8 +79,6 @@ public class UserModel {
 			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		try {
@@ -99,8 +96,6 @@ public class UserModel {
 				return user;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -116,7 +111,6 @@ public class UserModel {
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		try {
@@ -125,7 +119,6 @@ public class UserModel {
 				userId = rs.getInt("userId");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return roleId;
 	}
