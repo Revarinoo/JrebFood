@@ -23,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import controller.CartController;
 import controller.FoodController;
 import core.view.View;
-import model.CartModel;
 import model.FoodModel;
 
 public class FoodMenuView extends View{
@@ -147,7 +146,6 @@ public class FoodMenuView extends View{
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override

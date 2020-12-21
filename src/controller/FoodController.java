@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import core.view.View;
 import model.FoodModel;
-import model.FoodModel;
 import view.ManageFoodView;
 import view.FoodMenuView;
 
@@ -28,6 +27,12 @@ public class FoodController {
 	private FoodController() {
 	}
 
+	/*
+	 * Method ini bekerja saat Chef ingin menambah makanan dalam menu.
+	 * Pertama, memanggil model untuk menyimpan data nama, desc, dan price
+	 * dari hasil input pada View. Setelah itu, akan dijalankan method addFood pada model
+	 * agar model dapat memasukkan data yang telah dioper ke dalam database
+	 * */
 	public boolean addFood(String name, String desc, Integer price) {
 		FoodModel food = new FoodModel();
 		
@@ -45,9 +50,14 @@ public class FoodController {
 		return true;
 	}
 	
+	/*
+	 * Merupakan validasi yang dijalankan saat ingin menambah makanan untuk
+	 * memastikan bahwa Chef tidak mengkosongkan data yang akan dimasukkan, seperti 
+	 * nama, desc, dan price.
+	 * */
 	private boolean validateInput(String name, String desc, Integer price) {
 		
-		if(name.isEmpty() || desc.isEmpty() || (price == 0 || price == null || price % 1 != 0)) {
+		if(name.isEmpty() || desc.isEmpty() || (price == 0 || price == null)) {
 			return false;
 		}
 		return true;
@@ -67,6 +77,10 @@ public class FoodController {
 		
 	}
 	
+	/*
+	 *Function yang bekerja saat Chef ingin mengganti status dari Makanan (menjadi available/unavailable)
+	 *Nantinya, function ini akan memanggil model untuk menyimpan data dan mengubah data yang sudah ada di database 
+	 **/
 	public boolean changeStatus(Integer id, String status) {
 		FoodModel food = new FoodModel();
 		

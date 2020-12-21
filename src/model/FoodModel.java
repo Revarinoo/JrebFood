@@ -66,8 +66,7 @@ public class FoodModel {
 			ps.setInt(2, price);
 			ps.setString(3,description);
 			ps.setString(4, "available");
-			
-		
+				
 			ps.executeUpdate();			
 		} catch (SQLException e) {
 			
@@ -77,7 +76,6 @@ public class FoodModel {
 	}
 
 	public boolean changeStatus(Integer id, String status) {
-//		String status = String.format("SELECT foodStatus FROM %s WHERE foodId = %d", tableName, id);
 		
 		if (status == null) {
 			return false;
@@ -87,9 +85,6 @@ public class FoodModel {
 		PreparedStatement ps = con.prepareStatement(query);
 		
 		try {
-//			ps.setString(1, status);
-//			ps.setInt(2, foodId);
-			
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,9 +97,7 @@ public class FoodModel {
 		PreparedStatement ps = con.prepareStatement(query);
 		
 		try {
-//			ps.setInt(1, foodId);	
 			ps.executeUpdate();
-			
 			return true;
 		} catch (SQLException e) {
 			return false;

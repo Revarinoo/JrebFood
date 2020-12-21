@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import core.view.View;
 import model.EmployeeModel;
-import model.UserModel;
 import view.MainFormView;
 import view.ManageEmployeeView;
 

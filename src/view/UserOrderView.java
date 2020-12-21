@@ -19,11 +19,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.EmployeeController;
-import controller.FoodController;
 import controller.OrderController;
 import core.view.View;
-import model.FoodModel;
 import model.OrderModel;
 
 public class UserOrderView extends View{

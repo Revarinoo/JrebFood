@@ -1,24 +1,18 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controller.OrderController;
 import core.view.View;
 import model.OrderDetailModel;
-import model.OrderModel;
 
 public class DetailsOrderView extends View{
 	
@@ -32,7 +26,7 @@ public class DetailsOrderView extends View{
 	Integer orderId;
 	public DetailsOrderView(JDesktopPane desktop, Integer orderId) {
 		super("Details Order");
-		// TODO Auto-generated constructor stub
+		
 		this.height=600;
 		this.width=600;
 		this.desktop = desktop;
@@ -42,7 +36,7 @@ public class DetailsOrderView extends View{
 	}
 
 	private void loadData() {
-		// TODO Auto-generated method stub
+		
 		header.add("Order ID");
 		header.add("Food ID");
 		header.add("Quantity");
@@ -58,7 +52,6 @@ public class DetailsOrderView extends View{
 		DefaultTableModel dtm = new DefaultTableModel(dataOrder, header) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		};
@@ -67,7 +60,6 @@ public class DetailsOrderView extends View{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		main = new JPanel(new BorderLayout());
 		top = new JPanel();
 		
@@ -87,7 +79,6 @@ public class DetailsOrderView extends View{
 
 	@Override
 	public void addComponent() {
-		// TODO Auto-generated method stub
 		//Top
 		top.add(transLabel);
 		main.add(top,BorderLayout.NORTH);
@@ -102,7 +93,6 @@ public class DetailsOrderView extends View{
 	@Override
 	public void addListener() {
 		// TODO Auto-generated method stub
-	
 	}
 
 

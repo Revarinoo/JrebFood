@@ -32,6 +32,14 @@ public class CartController {
 		return errorMsg;
 	}
 	
+	/* Penjelasan fungsi viewAll() 
+	 	Ini merupakan fungsi untuk menampilkan makanan yang ada dalam cart(keranjang) customer. 
+	 	Fungsi ini dijalankan pada class CartView.java
+	 	Fungsi ini menerima sebuah parameter yaitu (userId) dan mengembalikan(return) sebuah Vector dari CartModel(Cart).
+	 	
+	 	Fungsi ini akan mengambil seluruh data dari database melalui CartModel, kemudian data yang sudah diambil dari database
+	 	akan diperiksa kembali dan ada makanan yang statusnya tiba-tiba menjadi "unavailable" maka makanan akan dihapus dari cart.
+	 */
 	public Vector<CartModel> viewAll(Integer userId){
 		CartModel cart = new CartModel();
 		
@@ -50,6 +58,20 @@ public class CartController {
 		return new CartView();
 	}
 	
+	
+	/* Penjelasan fungsi addToCart() 
+	   	 	Ini merupakan fungsi untuk menambahkan makanan ke dalam cart(keranjang) customer. 
+	   	 	Fungsi ini dijalankan pada class FoodMenuView.java
+	   	 	Fungsi ini menerima 3 buah parameter yaitu (userId,foodId dan quantity) dan mengembalikan(return) tipe data boolean.
+	   	 	
+	   	 	Pertama fungsi ini akan melakukan pada validasi input pada jumlah makanan yang ingin dimasukan ke cart,
+	   	 	lalu akan dilanjutkan dengan validasi status dari makanan(apabila status makanan unavailable maka customer
+	   	 	tidak dapat menambahnya ke dalam cart.
+	   	 	
+	   	 	Kemudian proses dilanjukan dengan memeriksa apakah makanan yang dipilih sudah ada sebelumnya dalam cart,
+	   	 	apabila makanan sudah ada dalam cart maka hanya quantity dari makanan tersebut yang akan ditambahkan dan 
+	   	 	apabila makanan belum ada dalam cart maka data makanan tersebut akan ditambahkan ke dalam cart.	
+	*/
 	public boolean addToCart(Integer userId,Integer foodId,Integer qty) {
 		CartModel cart = new CartModel();
 		FoodModel food = FoodController.getInstance().getFood(foodId);
@@ -120,6 +142,15 @@ public class CartController {
 		return deleteStatus;
 	}
 	
+	
+	/* Penjelasan fungsi removeAll() 
+	 	Ini merupakan fungsi untuk menghapus seluruh makanan yang ada dalam cart(keranjang) customer. 
+	 	Fungsi ini dijalankan untuk proses Checkout(order) pada CartView.java
+	 	Fungsi ini menerima sebuah parameter yaitu (userId).
+	 	
+	 	Fungsi ini bertugas untuk menghapus seluruh makanan yag ada dalam cart user setelah melakukan 
+	 	chekout terhadap makanan yang dipesan
+	 */
 	public void removeAll(Integer userId) {
 		CartModel cart = new CartModel();
 		cart.removeAll(userId);

@@ -18,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.FoodController;
 import controller.OrderController;
 import core.view.View;
 import model.OrderModel;
@@ -105,8 +104,7 @@ public class ChefOrderListView extends View{
 		 
 		add(topPanel, BorderLayout.NORTH);
 		add(midPanel, BorderLayout.CENTER);
-		add(botPanel, BorderLayout.SOUTH);
-		
+		add(botPanel, BorderLayout.SOUTH);	
 	}
 
 
@@ -127,15 +125,12 @@ public class ChefOrderListView extends View{
 				driverIdTxt.setText(tableOrder.getValueAt(tableOrder.getSelectedRow(), 1).toString());
 				
 				orderId = Integer.parseInt(orderIdTxt.getText());
-				driverId = Integer.parseInt(driverIdTxt.getText());
-
-				
+				driverId = Integer.parseInt(driverIdTxt.getText());		
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub	
 			}
 			
 			@Override
@@ -146,14 +141,12 @@ public class ChefOrderListView extends View{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub		
 			}
 		});
 		
 		changeStatusBtn.addActionListener(new ActionListener() {
 			
-			// Testing doang. Nanti tunggu kepastian aslab ganti nya jadi apa
 			String statusCooked = "cooked";
 			
 			@Override
@@ -179,7 +172,6 @@ public class ChefOrderListView extends View{
 				}
 				
 				
-
 			}
 
 		});
@@ -187,7 +179,7 @@ public class ChefOrderListView extends View{
 	}
 	
 	private void loadData() {
-		
+	
 		data = new Vector<>();
 		header = new Vector<>();
 		header.add("Order Id");
@@ -208,8 +200,7 @@ public class ChefOrderListView extends View{
 			data.add(detail);
 		}
 		dtm = new DefaultTableModel(data, header);
-		tableOrder.setModel(dtm);
-		
+		tableOrder.setModel(dtm);	
 	}
 
 }
