@@ -72,6 +72,7 @@ public class OrderController {
 		return order.getAll();
 	}
 	
+	// method untuk get semua order yang statusnya finished
 	public Vector<OrderModel> getAllFinishedOrder(){
 		OrderModel order = new OrderModel();
 		return order.getAllFinishedOrder();

@@ -107,8 +107,6 @@ public class OrderModel {
 			}
 			return data;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -141,8 +139,6 @@ public class OrderModel {
 			}
 			return availableOrderList;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -175,8 +171,6 @@ public class OrderModel {
 			}
 			return activerderList;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -192,8 +186,6 @@ public class OrderModel {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return false;
 	}
@@ -224,7 +216,6 @@ public class OrderModel {
 			}
 			return availableOrderList;
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -237,8 +228,6 @@ public class OrderModel {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		try {
@@ -259,8 +248,6 @@ public class OrderModel {
 				return temp;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -275,8 +262,6 @@ public class OrderModel {
 			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 		
 		try {
@@ -294,8 +279,6 @@ public class OrderModel {
 			}
 			return historyList;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -332,8 +315,6 @@ public class OrderModel {
 			}
 			return historyList;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -348,8 +329,6 @@ public class OrderModel {
 			ps.setInt(1, driverId);
 			rs = ps.executeQuery();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 		
 		try {
@@ -369,8 +348,6 @@ public class OrderModel {
 			}
 			return historyList;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -387,7 +364,6 @@ public class OrderModel {
 				
 				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
 				return false;
 			}
 	}
@@ -403,7 +379,6 @@ public class OrderModel {
 			ps.setString(4, "not accepted");
 			return ps.executeUpdate()==1;		
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return false;
 	}
@@ -430,7 +405,6 @@ public class OrderModel {
 			}
 			return activeOrderList;
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
