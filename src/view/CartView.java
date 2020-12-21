@@ -194,7 +194,7 @@ public class CartView extends View{
 				
 				Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
 			
-				int orderConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Proceed Order? ","Confirmation", JOptionPane.PLAIN_MESSAGE);
+				int orderConfirmation = JOptionPane.showConfirmDialog(CartView.this, "Proceed Order? ","Confirmation", JOptionPane.WARNING_MESSAGE);
 				
 				if(orderConfirmation == JOptionPane.YES_OPTION) {
 					boolean orderStatus = OrderController.getInstance().addOrder(user, date);

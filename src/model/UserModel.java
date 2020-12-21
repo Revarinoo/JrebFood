@@ -96,6 +96,7 @@ public class UserModel {
 				return user;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

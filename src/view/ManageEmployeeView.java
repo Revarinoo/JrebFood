@@ -90,7 +90,7 @@ public class ManageEmployeeView extends View{
 		scrollPane = new JScrollPane(table);
 		titleLbl = new JLabel("Employee List");
 		idLbl = new JLabel("Employee ID");
-		idValue = new JLabel("-");
+		idValue = new JLabel("0");
 		
 		dobLbl = new JLabel("Date Of Birth");
 		
@@ -228,6 +228,10 @@ public class ManageEmployeeView extends View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				id = Integer.parseInt(idValue.getText());
+				if(id == 0) {
+					JOptionPane.showMessageDialog(ManageEmployeeView.this, "Failed!");
+				}
+				else {
 				int input = JOptionPane.showConfirmDialog(new ManageEmployeeView(), "Are you sure want to fire this employee?","Fire Employee",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if(input == 0) {
 					if(EmployeeController.getInstance().changeStatus(id)) {
@@ -240,6 +244,7 @@ public class ManageEmployeeView extends View{
 						passwordTxt.setText("");
 						statusCB.setSelectedItem("");
 					}
+				}
 				}
 				loadData();
 			}

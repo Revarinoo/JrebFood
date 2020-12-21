@@ -142,7 +142,6 @@ public class CartController {
 		return deleteStatus;
 	}
 	
-	
 	/* Penjelasan fungsi removeAll() 
 	 	Ini merupakan fungsi untuk menghapus seluruh makanan yang ada dalam cart(keranjang) customer. 
 	 	Fungsi ini dijalankan untuk proses Checkout(order) pada CartView.java

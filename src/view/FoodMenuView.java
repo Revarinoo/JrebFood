@@ -24,7 +24,10 @@ import controller.CartController;
 import controller.FoodController;
 import core.view.View;
 import model.FoodModel;
-
+/*
+ * Pada frame ini ditampilkan menu makanan yang ada pada restoran, selain itu frame ini juga berfungsi sebagai menu untuk "add to cart".
+ * Pada frame ini juga, User dapat memilih makanan untuk ditambahkan ke dalam cart.
+ */
 public class FoodMenuView extends View{
 
 	JPanel mainPanel,northPanel,centerPanel,southPanel,addFoodDataToCartPanel;
