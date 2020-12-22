@@ -64,7 +64,7 @@ public class ManageEmployeeView extends View{
 		super("Manager Menu");
 		
 		this.width = 800;
-		this.height = 900;
+		this.height = 650;
 		super.showForm();
 	}
 
