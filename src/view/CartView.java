@@ -106,7 +106,12 @@ public class CartView extends View{
 		header.add("Name");
 		header.add("Quantity");
 		header.add("Sub Price");
-		cartDtm = new DefaultTableModel(header,0);
+		cartDtm = new DefaultTableModel(header,0){	
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}	
+		};
 		
 		Integer userId =MainFormView.userID;
 		Vector<CartModel> carts = CartController.getInstance().viewAll(userId);
