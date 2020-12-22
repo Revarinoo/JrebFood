@@ -350,7 +350,12 @@ public class ManageFoodView extends View{
 		}
 		
 			
-		dtm = new DefaultTableModel(data, header);
+		dtm = new DefaultTableModel(data, header){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		
 		table.setModel(dtm);
 		

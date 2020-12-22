@@ -124,7 +124,12 @@ public class FoodMenuView extends View{
 		header.add("Price");
 		header.add("Description");
 		header.add("Status");
-		foodDtm = new DefaultTableModel(header,0);
+		foodDtm = new DefaultTableModel(header,0) {	
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}	
+		};
 		
 		Vector<FoodModel> foods = FoodController.getInstance().viewAll();
 		
